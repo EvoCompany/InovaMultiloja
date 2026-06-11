@@ -1,0 +1,153 @@
+================================================================================
+                        INOVA MULTILOJA - GUIA DE INSTALAÇÃO
+================================================================================
+
+Este é o seu site de catálogo pronto para hospedagem compartilhada na Hostinger.
+
+
+================================================================================
+                              ESTRUTURA DOS ARQUIVOS
+================================================================================
+
+hostinger-build/
+├── index.html          → Página principal do site
+├── css/
+│   └── styles.css      → Estilos do site
+├── js/
+│   ├── main.js         → Funcionalidades gerais (menu, slider, etc.)
+│   ├── products.js     → Produtos de demonstração
+│   └── woocommerce.js  → Integração com WooCommerce (opcional)
+├── assets/
+│   └── logo.png        → Logo da sua loja
+└── LEIA-ME.txt         → Este arquivo
+
+
+================================================================================
+                      COMO FAZER UPLOAD NA HOSTINGER
+================================================================================
+
+1. Acesse o hPanel da Hostinger (hpanel.hostinger.com)
+2. Vá em "Gerenciador de Arquivos" ou use FTP
+3. Navegue até a pasta "public_html"
+4. Faça upload de TODOS os arquivos da pasta "hostinger-build"
+   - index.html deve ficar na raiz de public_html
+   - css/ deve ficar em public_html/css/
+   - js/ deve ficar em public_html/js/
+   - assets/ deve ficar em public_html/assets/
+
+Estrutura final em public_html:
+public_html/
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   ├── main.js
+│   ├── products.js
+│   └── woocommerce.js
+└── assets/
+    └── logo.png
+
+
+================================================================================
+                      COMO EDITAR OS PRODUTOS
+================================================================================
+
+OPÇÃO 1: Edição Manual (sem WooCommerce)
+----------------------------------------
+1. Abra o arquivo js/products.js em um editor de texto
+2. Encontre o array "demoProducts" e "offerProducts"
+3. Edite, adicione ou remova produtos seguindo o formato:
+
+   {
+       id: 1,
+       name: "Nome do Produto",
+       price: 1999.00,
+       originalPrice: 2499.00,  // opcional (preço antigo)
+       image: "URL da imagem",
+       badge: "Novo",           // ou "-20%", "-30%", etc.
+       category: "smartphones"
+   }
+
+4. Salve o arquivo e faça upload novamente
+
+
+OPÇÃO 2: Usando WooCommerce (Recomendado)
+-----------------------------------------
+1. Instale WordPress + WooCommerce na sua hospedagem
+   - Na Hostinger: hPanel > WordPress > Instalar
+
+2. Configure a REST API do WooCommerce:
+   - Acesse: WooCommerce > Configurações > Avançado > REST API
+   - Clique em "Adicionar chave"
+   - Descrição: "Site Catálogo"
+   - Usuário: seu usuário admin
+   - Permissões: Leitura
+   - Clique em "Gerar chave de API"
+   - COPIE a Consumer Key e Consumer Secret (aparecem só uma vez!)
+
+3. Configure o arquivo js/woocommerce.js:
+   - Abra o arquivo e edite as variáveis:
+
+   const WOOCOMMERCE_CONFIG = {
+       siteUrl: 'https://seu-site.com.br',  // URL do seu WordPress
+       consumerKey: 'ck_xxxx',              // Cole sua Consumer Key
+       consumerSecret: 'cs_xxxx',           // Cole sua Consumer Secret
+       productsPerPage: 10,
+       offersPerPage: 5
+   };
+
+4. Ative a integração:
+   - No arquivo js/woocommerce.js, no final, descomente a linha:
+     document.addEventListener('DOMContentLoaded', renderWooCommerceProducts);
+   
+   - No arquivo js/products.js, comente ou remova a última linha:
+     // document.addEventListener('DOMContentLoaded', renderProducts);
+
+5. Agora você pode adicionar produtos pelo painel do WooCommerce!
+
+
+================================================================================
+                      COMO PERSONALIZAR O SITE
+================================================================================
+
+ALTERAR CORES:
+--------------
+Abra css/styles.css e edite as variáveis no início:
+
+:root {
+    --primary: #2d1b69;        /* Cor principal (roxo/azul) */
+    --secondary: #e53935;       /* Cor secundária (vermelho) */
+    --background: #f8f8fa;      /* Cor de fundo */
+    --foreground: #1a1a2e;      /* Cor do texto */
+}
+
+
+ALTERAR LOGO:
+-------------
+Substitua o arquivo assets/logo.png pela sua nova logo.
+Mantenha o mesmo nome de arquivo.
+
+
+ALTERAR NÚMERO DO WHATSAPP:
+---------------------------
+1. Em index.html, procure por "555596859071" e substitua pelo seu número
+2. Em js/products.js, altere a variável WHATSAPP_LINK no início
+
+
+ALTERAR INFORMAÇÕES DE CONTATO:
+-------------------------------
+Edite diretamente no index.html:
+- Procure por "Santiago, RS" para alterar o endereço
+- Procure por "08:30 às 18:30" para alterar horários
+- Procure por "contato@inovamultiloja.com.br" para alterar o email
+
+
+================================================================================
+                              SUPORTE
+================================================================================
+
+Se precisar de ajuda adicional:
+- WhatsApp: (55) 9 9685-9071
+- Email: contato@inovamultiloja.com.br
+
+================================================================================
