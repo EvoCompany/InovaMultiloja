@@ -35,6 +35,69 @@ const benefits = [
   { icon: Shield, text: "Compra Segura", subtext: "100% protegida" },
 ];
 
+function pad(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+function getTimeUntilEndOfMonth(): TimeLeft {
+  const now = new Date();
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
+  const diff = endOfMonth.getTime() - now.getTime();
+
+  if (diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  return { days, hours, minutes, seconds };
+}
+
+function TimeBox({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-primary text-primary-foreground">
+      <span className="text-xl font-bold leading-none">{pad(value)}</span>
+      <span className="text-[10px] uppercase mt-0.5">{label}</span>
+    </div>
+  );
+}
+
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    setTimeLeft(getTimeUntilEndOfMonth());
+
+    const interval = setInterval(() => {
+      setTimeLeft(getTimeUntilEndOfMonth());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex items-center gap-2">
+      <TimeBox value={timeLeft.days} label="Dias" />
+      <span className="text-xl font-bold text-foreground">:</span>
+      <TimeBox value={timeLeft.hours} label="Horas" />
+      <span className="text-xl font-bold text-foreground">:</span>
+      <TimeBox value={timeLeft.minutes} label="Min" />
+      <span className="text-xl font-bold text-foreground">:</span>
+      <TimeBox value={timeLeft.seconds} label="Seg" />
+    </div>
+  );
+}
+
 export function HeroBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -109,6 +172,26 @@ export function HeroBanner() {
           ))}
         </div>
       </div>
+
+      {/* Ofertas do Mês */}
+      <section className="bg-gradient-to-r from-secondary/10 to-primary/10 border-y border-border py-6">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-1.5 rounded-full bg-secondary" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-secondary">
+                  Tempo Limitado
+                </p>
+                <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
+                  OFERTAS DO MÊS
+                </h2>
+              </div>
+            </div>
+            <CountdownTimer />
+          </div>
+        </div>
+      </section>
 
       {/* Benefits Bar */}
       <div className="border-b border-border bg-card">
