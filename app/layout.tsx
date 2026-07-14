@@ -2,14 +2,16 @@ import React from "react"
 import type { Metadata, Viewport } from 'next'
 import { Roboto_Slab, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CartProvider } from '@/context/cart-context'
+import { CartDrawer } from '@/components/cart-drawer'
 import './globals.css'
 
-const robotoSlab = Roboto_Slab({ 
+const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   variable: '--font-serif'
 });
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   variable: '--font-sans'
 });
@@ -39,7 +41,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.variable} ${robotoSlab.variable} font-sans antialiased`}>
-        {children}
+        <CartProvider>
+          {children}
+          <CartDrawer />
+        </CartProvider>
         <Analytics />
       </body>
     </html>

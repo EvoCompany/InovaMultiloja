@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
 
 const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=555596859071";
 const PHONE_NUMBER = "(55) 9 9685-9071";
+const PHONE_TEL = "tel:+555596859071";
 
 export function Footer() {
   return (
@@ -71,7 +72,10 @@ export function Footer() {
             <ul className="space-y-3 text-sm opacity-90">
               <li className="flex items-center justify-center md:justify-start gap-2">
                 <Phone className="h-4 w-4 flex-shrink-0" />
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:underline">{PHONE_NUMBER}</a>
+                <div className="flex flex-col gap-0.5">
+                  <a href={PHONE_TEL} className="hover:underline">{PHONE_NUMBER}</a>
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:underline text-xs opacity-80">WhatsApp</a>
+                </div>
               </li>
               <li className="flex items-center justify-center md:justify-start gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0" />

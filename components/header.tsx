@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Menu, Phone, ShoppingCart, User, ChevronDown } from "lucide-react";
+import { Search, Menu, ShoppingCart, User, ChevronDown } from "lucide-react";
+import { useCart } from "@/context/cart-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,9 +13,6 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-
-const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=555596859071";
-const PHONE_NUMBER = "(55) 9 9685-9071";
 
 const navCategories = [
   {
@@ -69,6 +67,7 @@ const navCategories = [
 
 export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { count, openCart } = useCart();
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -76,23 +75,12 @@ export function Header() {
       <div className="bg-gradient-to-r from-secondary to-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between text-sm">
-            {/* Telefone à esquerda */}
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-            >
-              <Phone className="h-4 w-4" />
-              <span>{PHONE_NUMBER}</span>
-            </a>
-
-            {/* Benefícios no centro */}
-            <div className="hidden md:flex items-center gap-4 text-xs">
+            {/* Benefícios */}
+            <div className="flex items-center gap-3 text-xs">
               <span>Frete Grátis em todo o site</span>
-              <span>•</span>
-              <span className="font-medium">7% OFF no Pix</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
+              <span className="hidden sm:inline font-medium">7% OFF no Pix</span>
+              <span className="hidden lg:inline">•</span>
               <span className="hidden lg:inline">Parcelamos em até 12x</span>
             </div>
 
@@ -196,13 +184,14 @@ export function Header() {
 
             {/* Ícone carrinho à direita */}
             <button
+              onClick={openCart}
               className="flex-shrink-0 flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors relative"
               aria-label="Carrinho de compras"
             >
               <div className="relative">
                 <ShoppingCart className="h-6 w-6" />
                 <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-primary-foreground">
-                  0
+                  {count}
                 </span>
               </div>
               <span className="hidden text-xs font-medium md:block">Carrinho</span>
@@ -214,7 +203,7 @@ export function Header() {
       {/* Categories Nav */}
       <nav className="hidden border-b border-border bg-primary md:block">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center justify-center gap-0 overflow-x-auto">
+          <ul className="flex items-center justify-center gap-0">
             {navCategories.map((category) => (
               <li key={category.name} className="group relative">
                 <Link

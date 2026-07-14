@@ -6,6 +6,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Product } from "@/lib/products";
+import { useCart } from "@/context/cart-context";
 
 export type { Product };
 
@@ -14,6 +15,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { addItem } = useCart();
   const pixPrice = product.price * 0.93;
   const installmentPrice = product.price / 12;
 
@@ -115,6 +117,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Actions */}
         <div className="mt-3 flex flex-col gap-2">
           <Button
+            onClick={() => addItem(product)}
             className="w-full bg-gradient-to-r from-secondary to-primary text-primary-foreground hover:opacity-90 font-semibold"
             size="sm"
           >
