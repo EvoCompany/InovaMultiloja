@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Menu, ShoppingCart, User, ChevronDown } from "lucide-react";
@@ -68,27 +69,25 @@ const navCategories = [
 export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const { count, openCart } = useCart();
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) router.push(`/busca?q=${encodeURIComponent(q)}`);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Top Bar */}
       <div className="bg-gradient-to-r from-secondary to-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-sm">
-            {/* Benefícios */}
-            <div className="flex items-center gap-3 text-xs">
-              <span>Frete Grátis em todo o site</span>
-              <span className="hidden sm:inline">•</span>
-              <span className="hidden sm:inline font-medium">7% OFF no Pix</span>
-              <span className="hidden lg:inline">•</span>
-              <span className="hidden lg:inline">Parcelamos em até 12x</span>
-            </div>
-
-            {/* Minha Conta à direita */}
-            <button className="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-sm font-medium">
-              <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Minha Conta</span>
-            </button>
+          <div className="flex items-center justify-center text-xs gap-3">
+            <span>Frete Grátis em todo o site</span>
+            <span className="hidden sm:inline opacity-60">•</span>
+            <span className="hidden sm:inline font-medium">7% OFF no Pix</span>
+            <span className="hidden lg:inline opacity-60">•</span>
+            <span className="hidden lg:inline">Parcelamos em até 12x</span>
           </div>
         </div>
       </div>
@@ -163,7 +162,7 @@ export function Header() {
             </div>
 
             {/* Barra de busca flex-1 no centro */}
-            <div className="flex-1">
+            <form onSubmit={handleSearch} className="flex-1">
               <div className="relative w-full max-w-2xl mx-auto">
                 <Input
                   type="search"
@@ -173,6 +172,7 @@ export function Header() {
                   className="h-11 pr-12 pl-4"
                 />
                 <Button
+                  type="submit"
                   size="icon"
                   className="absolute top-1/2 right-1 h-9 w-9 -translate-y-1/2 bg-gradient-to-r from-secondary to-primary hover:opacity-90"
                 >
@@ -180,7 +180,7 @@ export function Header() {
                   <span className="sr-only">Buscar</span>
                 </Button>
               </div>
-            </div>
+            </form>
 
             {/* Ícone carrinho à direita */}
             <button
