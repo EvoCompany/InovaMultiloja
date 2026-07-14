@@ -19,43 +19,51 @@ const PHONE_NUMBER = "(55) 9 9685-9071";
 const navCategories = [
   {
     name: "Smartphones",
-    href: "#smartphones",
+    href: "/smartphones",
     subcategories: ["iPhone", "Samsung", "Xiaomi", "Motorola"],
+    slug: "smartphones",
   },
   {
     name: "Notebooks",
-    href: "#notebooks",
+    href: "/notebooks",
     subcategories: ["MacBook", "Dell", "ASUS", "Lenovo", "HP"],
+    slug: "notebooks",
   },
   {
     name: "Tablets",
-    href: "#tablets",
+    href: "/tablets",
     subcategories: ["iPad", "Samsung Tab", "Xiaomi Pad"],
+    slug: "tablets",
   },
   {
     name: "Smartwatches",
-    href: "#smartwatches",
+    href: "/smartwatches",
     subcategories: ["Apple Watch", "Samsung Galaxy Watch"],
+    slug: "smartwatches",
   },
   {
     name: "Acessórios",
-    href: "#acessorios",
+    href: "/acessorios",
     subcategories: ["Capas", "Carregadores", "Fones", "Hubs"],
+    slug: "acessorios",
   },
   {
     name: "Áudio",
-    href: "#audio",
+    href: "/audio",
     subcategories: ["AirPods", "Fones Bluetooth", "Caixas de Som"],
+    slug: "audio",
   },
   {
     name: "Câmeras",
-    href: "#cameras",
+    href: "/cameras",
     subcategories: ["Canon", "Nikon", "GoPro", "DJI"],
+    slug: "cameras",
   },
   {
     name: "Games",
-    href: "#games",
+    href: "/games",
     subcategories: ["PlayStation", "Xbox", "Nintendo", "PC Gamer"],
+    slug: "games",
   },
 ];
 
@@ -139,7 +147,7 @@ export function Header() {
                             {category.subcategories.map((sub) => (
                               <Link
                                 key={sub}
-                                href={`#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
                                 className="rounded-lg px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                               >
                                 {sub}
@@ -223,7 +231,7 @@ export function Header() {
                     {category.subcategories.map((sub) => (
                       <li key={sub}>
                         <Link
-                          href={`#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                          href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
                           className="block px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted hover:text-primary"
                         >
                           {sub}

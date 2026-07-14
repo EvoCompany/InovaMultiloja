@@ -5,18 +5,9 @@ import Link from "next/link";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import type { Product } from "@/lib/products";
 
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  category: string;
-  isNew?: boolean;
-  isFeatured?: boolean;
-  discount?: number;
-}
+export type { Product };
 
 interface ProductCardProps {
   product: Product;

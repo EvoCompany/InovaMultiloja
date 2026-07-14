@@ -4,211 +4,14 @@ import { CategoryGrid } from "@/components/category-grid";
 import { ProductGrid } from "@/components/product-grid";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import type { Product } from "@/components/product-card";
+import { allProducts, getFeaturedProducts } from "@/lib/products";
 
 const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=555596859071";
 
-// Produtos de demonstração (serão substituídos pelo WooCommerce quando configurado)
-const featuredProducts: Product[] = [
-  {
-    id: 1,
-    name: "iPhone 16 Pro Max 256GB 5G - Tela Super Retina XDR 6.9\" - Titânio Preto",
-    price: 9999.00,
-    originalPrice: 11499.00,
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop",
-    category: "iPhone",
-    isNew: true,
-    discount: 13,
-  },
-  {
-    id: 2,
-    name: "MacBook Air M4 13.6\" 16GB RAM 512GB SSD - Estelar",
-    price: 8499.00,
-    originalPrice: 9299.00,
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
-    category: "MacBook",
-    isNew: true,
-    discount: 9,
-  },
-  {
-    id: 3,
-    name: "Apple Watch Ultra 2 49mm GPS + Celular - Pulseira Ocean",
-    price: 6499.00,
-    originalPrice: 7199.00,
-    image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=400&fit=crop",
-    category: "Apple Watch",
-    isNew: true,
-    discount: 10,
-  },
-  {
-    id: 4,
-    name: "iPad Pro M4 11\" WiFi 256GB - Cinza Espacial",
-    price: 8299.00,
-    originalPrice: 8999.00,
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop",
-    category: "iPad",
-    isNew: true,
-    discount: 8,
-  },
-  {
-    id: 5,
-    name: "AirPods Pro 2 com Estojo de Recarga MagSafe USB-C",
-    price: 1799.00,
-    originalPrice: 2099.00,
-    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&h=400&fit=crop",
-    category: "Áudio",
-    discount: 14,
-  },
-];
-
-const smartphones: Product[] = [
-  {
-    id: 6,
-    name: "iPhone 15 128GB 5G - Preto",
-    price: 4999.00,
-    originalPrice: 5499.00,
-    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop",
-    category: "iPhone",
-    discount: 9,
-  },
-  {
-    id: 7,
-    name: "Samsung Galaxy S24 Ultra 512GB - Titanium Gray",
-    price: 7499.00,
-    originalPrice: 8299.00,
-    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=400&fit=crop",
-    category: "Samsung",
-    isNew: true,
-    discount: 10,
-  },
-  {
-    id: 8,
-    name: "Xiaomi 14 Ultra 512GB - Preto",
-    price: 5999.00,
-    originalPrice: 6999.00,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop",
-    category: "Xiaomi",
-    isNew: true,
-    discount: 14,
-  },
-  {
-    id: 9,
-    name: "iPhone 14 Pro 256GB - Roxo Profundo",
-    price: 5299.00,
-    originalPrice: 5999.00,
-    image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=400&h=400&fit=crop",
-    category: "iPhone",
-    discount: 12,
-  },
-  {
-    id: 10,
-    name: "Motorola Edge 50 Pro 512GB - Preto",
-    price: 3499.00,
-    originalPrice: 3999.00,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop",
-    category: "Motorola",
-    discount: 13,
-  },
-];
-
-const notebooks: Product[] = [
-  {
-    id: 11,
-    name: "MacBook Pro M4 14\" 18GB RAM 512GB SSD - Space Black",
-    price: 14999.00,
-    originalPrice: 16499.00,
-    image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=400&fit=crop",
-    category: "MacBook",
-    isNew: true,
-    discount: 9,
-  },
-  {
-    id: 12,
-    name: "Dell XPS 15 Intel Core i9 32GB RAM 1TB SSD",
-    price: 12499.00,
-    originalPrice: 13999.00,
-    image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&h=400&fit=crop",
-    category: "Dell",
-    discount: 11,
-  },
-  {
-    id: 13,
-    name: "ASUS ROG Strix G16 RTX 5070 32GB RAM 1TB SSD",
-    price: 15999.00,
-    originalPrice: 17999.00,
-    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=400&fit=crop",
-    category: "ASUS",
-    isNew: true,
-    discount: 11,
-  },
-  {
-    id: 14,
-    name: "Lenovo ThinkPad X1 Carbon Gen 12 16GB RAM 512GB",
-    price: 10999.00,
-    originalPrice: 12499.00,
-    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=400&fit=crop",
-    category: "Lenovo",
-    discount: 12,
-  },
-  {
-    id: 15,
-    name: "HP Spectre x360 14\" Intel Evo 16GB RAM 1TB SSD",
-    price: 9499.00,
-    originalPrice: 10499.00,
-    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop",
-    category: "HP",
-    discount: 10,
-  },
-];
-
-const accessories: Product[] = [
-  {
-    id: 16,
-    name: "Apple Magic Keyboard com Touch ID - Branco",
-    price: 1499.00,
-    originalPrice: 1699.00,
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop",
-    category: "Acessórios",
-    discount: 12,
-  },
-  {
-    id: 17,
-    name: "Carregador MagSafe 15W Original Apple",
-    price: 399.00,
-    originalPrice: 449.00,
-    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
-    category: "Carregadores",
-    discount: 11,
-  },
-  {
-    id: 18,
-    name: "Capa de Silicone iPhone 16 Pro Max - Azul",
-    price: 399.00,
-    originalPrice: 449.00,
-    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=400&fit=crop",
-    category: "Capas",
-    isNew: true,
-    discount: 11,
-  },
-  {
-    id: 19,
-    name: "Pulseira Sport Apple Watch 45mm - Verde",
-    price: 349.00,
-    originalPrice: 399.00,
-    image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=400&h=400&fit=crop",
-    category: "Pulseiras",
-    discount: 13,
-  },
-  {
-    id: 20,
-    name: "Hub USB-C 7 em 1 - HDMI 4K, USB 3.0, SD Card",
-    price: 299.00,
-    originalPrice: 349.00,
-    image: "https://images.unsplash.com/photo-1625723044792-44de16ccb4e9?w=400&h=400&fit=crop",
-    category: "Hubs",
-    discount: 14,
-  },
-];
+const featuredProducts = getFeaturedProducts();
+const smartphones = allProducts.filter((p) => p.categorySlug === "smartphones");
+const notebooks = allProducts.filter((p) => p.categorySlug === "notebooks");
+const accessories = allProducts.filter((p) => p.categorySlug === "acessorios");
 
 export default function Home() {
   return (
@@ -252,11 +55,11 @@ export default function Home() {
         </div>
 
         <div className="bg-muted/50">
-          <ProductGrid title="Smartphones" products={smartphones} />
+          <ProductGrid title="Smartphones" products={smartphones} categorySlug="smartphones" />
         </div>
-        <ProductGrid title="Notebooks & Computadores" products={notebooks} />
+        <ProductGrid title="Notebooks & Computadores" products={notebooks} categorySlug="notebooks" />
         <div className="bg-muted/50">
-          <ProductGrid title="Acessórios" products={accessories} />
+          <ProductGrid title="Acessórios" products={accessories} categorySlug="acessorios" />
         </div>
 
         {/* Newsletter Section */}

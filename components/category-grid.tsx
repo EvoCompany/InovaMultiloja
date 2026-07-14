@@ -2,14 +2,14 @@ import Link from "next/link";
 import { Smartphone, Laptop, Tablet, Watch, Headphones, Camera, Gamepad2, Cable } from "lucide-react";
 
 const categories = [
-  { name: "Smartphones", icon: Smartphone, href: "#smartphones" },
-  { name: "Notebooks", icon: Laptop, href: "#notebooks" },
-  { name: "Tablets", icon: Tablet, href: "#tablets" },
-  { name: "Smartwatches", icon: Watch, href: "#smartwatches" },
-  { name: "Áudio", icon: Headphones, href: "#audio" },
-  { name: "Câmeras", icon: Camera, href: "#cameras" },
-  { name: "Games", icon: Gamepad2, href: "#games" },
-  { name: "Acessórios", icon: Cable, href: "#acessorios" },
+  { name: "Smartphones", icon: Smartphone, href: "/smartphones" },
+  { name: "Notebooks", icon: Laptop, href: "/notebooks" },
+  { name: "Tablets", icon: Tablet, href: "/tablets" },
+  { name: "Smartwatches", icon: Watch, href: "/smartwatches" },
+  { name: "Áudio", icon: Headphones, href: "/audio" },
+  { name: "Câmeras", icon: Camera, href: "/cameras" },
+  { name: "Games", icon: Gamepad2, href: "/games" },
+  { name: "Acessórios", icon: Cable, href: "/acessorios" },
 ];
 
 export function CategoryGrid() {

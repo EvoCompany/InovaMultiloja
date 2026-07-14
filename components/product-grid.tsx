@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { ProductCard, type Product } from "./product-card";
 
 interface ProductGridProps {
   title: string;
   products: Product[];
   showViewAll?: boolean;
+  categorySlug?: string;
 }
 
-export function ProductGrid({ title, products, showViewAll = true }: ProductGridProps) {
+export function ProductGrid({ title, products, showViewAll = true, categorySlug }: ProductGridProps) {
   return (
     <section className="py-8 md:py-12">
       <div className="container mx-auto px-4">
@@ -18,12 +20,12 @@ export function ProductGrid({ title, products, showViewAll = true }: ProductGrid
             </h2>
           </div>
           {showViewAll && (
-            <a
-              href="#"
+            <Link
+              href={categorySlug ? `/${categorySlug}` : "#"}
               className="flex items-center gap-1 rounded-lg border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               Ver todos →
-            </a>
+            </Link>
           )}
         </div>
         <div className="flex flex-wrap items-stretch justify-center gap-3 md:gap-4">
