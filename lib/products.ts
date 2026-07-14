@@ -650,3 +650,90 @@ export function getProductsByCategory(slug: string): Product[] {
 export function getFeaturedProducts(): Product[] {
   return allProducts.filter((p) => p.isFeatured || p.isNew).slice(0, 5);
 }
+
+export function getProductById(id: number): Product | undefined {
+  return allProducts.find((p) => p.id === id);
+}
+
+export function getRelatedProducts(currentId: number, categorySlug: string, count = 4): Product[] {
+  return allProducts
+    .filter((p) => p.categorySlug === categorySlug && p.id !== currentId)
+    .slice(0, count);
+}
+
+export function getProductSpecs(product: Product): Record<string, string> {
+  const name = product.name.toLowerCase();
+  const base: Record<string, string> = {
+    Marca: product.category,
+    Condição: "Novo",
+    Garantia: "12 meses",
+  };
+
+  if (product.categorySlug === "smartphones") {
+    const storage = name.match(/(\d+)gb/i)?.[1];
+    const ram = name.match(/(\d+)gb\s*ram/i)?.[1];
+    return {
+      ...base,
+      Armazenamento: storage ? `${storage}GB` : "256GB",
+      RAM: ram ? `${ram}GB` : "8GB",
+      Conectividade: name.includes("5g") ? "5G / Wi-Fi / Bluetooth" : "4G / Wi-Fi / Bluetooth",
+      "Sistema Operacional": name.includes("iphone") ? "iOS 18" : "Android 14",
+      Bateria: "4500 mAh (aprox.)",
+    };
+  }
+  if (product.categorySlug === "notebooks") {
+    const ram = name.match(/(\d+)gb\s*ram/i)?.[1];
+    const storage = name.match(/(\d+)(?:tb|gb)\s*ssd/i);
+    return {
+      ...base,
+      Processador: name.includes("m4") ? "Apple M4" : name.includes("i9") ? "Intel Core i9" : name.includes("i7") ? "Intel Core i7" : "AMD Ryzen 7",
+      RAM: ram ? `${ram}GB` : "16GB",
+      Armazenamento: storage ? `${storage[1]}${storage[0].includes("tb") ? "TB" : "GB"} SSD` : "512GB SSD",
+      "Sistema Operacional": name.includes("macbook") ? "macOS Sequoia" : "Windows 11 Home",
+      Tela: name.includes('14"') ? '14"' : name.includes('15"') ? '15"' : name.includes('16"') ? '16"' : '13"',
+    };
+  }
+  if (product.categorySlug === "tablets") {
+    const storage = name.match(/(\d+)gb/i)?.[1];
+    return {
+      ...base,
+      Armazenamento: storage ? `${storage}GB` : "128GB",
+      Conectividade: name.includes("wifi") ? "Wi-Fi" : "Wi-Fi + Celular",
+      "Sistema Operacional": name.includes("ipad") ? "iPadOS 18" : "Android 14",
+      Bateria: "8000 mAh (aprox.)",
+    };
+  }
+  if (product.categorySlug === "smartwatches") {
+    return {
+      ...base,
+      Conectividade: name.includes("gps + celular") || name.includes("celular") ? "GPS + Celular" : "GPS",
+      "Resistência à Água": "WR50 / 50 metros",
+      Bateria: "Até 18 horas",
+      Compatibilidade: name.includes("apple") ? "iPhone (iOS 17+)" : "Android 6.0+",
+    };
+  }
+  if (product.categorySlug === "cameras") {
+    return {
+      ...base,
+      Tipo: name.includes("mirrorless") ? "Mirrorless" : name.includes("dslr") ? "DSLR" : "Câmera de Ação",
+      Resolução: "24 MP (aprox.)",
+      Vídeo: "4K 60fps",
+      Conectividade: "Wi-Fi / Bluetooth",
+    };
+  }
+  return base;
+}
+
+export function getProductDescription(product: Product): string {
+  const catDescriptions: Record<string, string> = {
+    smartphones: `O ${product.name} chega para redefinir o que é possível em um smartphone. Com design premium, câmera de alta resolução e processador de última geração, este dispositivo oferece desempenho excepcional para todas as suas necessidades. Seja para trabalho, entretenimento ou fotografia, você encontrará tudo que precisa em um único aparelho. Aproveite a conectividade de ponta, bateria de longa duração e o mais recente sistema operacional para uma experiência completa e sem limites.`,
+    notebooks: `O ${product.name} é a combinação perfeita de desempenho, portabilidade e estilo. Equipado com processador de alta performance e memória generosa, este notebook foi desenvolvido para profissionais e estudantes que exigem o melhor. O display de alta resolução oferece cores vibrantes e detalhes nítidos, enquanto a bateria de longa duração garante produtividade o dia todo. Ideal para multitarefas, edição de vídeo, programação e muito mais.`,
+    tablets: `O ${product.name} redefine a experiência em tablets com sua tela deslumbrante e processador poderoso. Perfeito para trabalho, estudo e entretenimento, este dispositivo oferece uma experiência imersiva e versátil. Com suporte a acessórios como teclado e caneta digital, transforma-se em uma poderosa ferramenta de produtividade. Leve e elegante, é o companheiro ideal para o dia a dia.`,
+    smartwatches: `O ${product.name} é muito mais que um relógio — é um parceiro de saúde e conectividade no seu pulso. Monitore sua frequência cardíaca, nível de oxigênio no sangue, qualidade do sono e atividades físicas com precisão. Receba notificações, responda mensagens e controle sua música diretamente do pulso. Com design sofisticado e resistência à água, é o acessório perfeito para qualquer estilo de vida.`,
+    audio: `O ${product.name} oferece uma experiência de áudio premium e imersiva. Com cancelamento de ruído ativo de alta qualidade, você se isola do mundo exterior e se concentra apenas na sua música. O som rico e equilibrado com graves profundos e agudos cristalinos proporciona uma experiência musical incomparável. Confortável para uso prolongado, com autonomia de bateria excepcional e conectividade sem fio estável.`,
+    cameras: `O ${product.name} é a ferramenta ideal para fotógrafos e videomakers que buscam qualidade profissional. Com sensor de alta resolução, autofoco rápido e preciso, e capacidade de gravação em 4K, este equipamento captura cada momento com fidelidade e detalhamento impressionantes. Design robusto e ergonômico para uso em qualquer ambiente.`,
+    games: `O ${product.name} eleva sua experiência de jogo a um novo patamar. Com hardware poderoso, biblioteca extensa de jogos e recursos exclusivos, este produto foi desenvolvido para proporcionar entretenimento imersivo e de alta qualidade. Prepare-se para gráficos deslumbrantes, jogabilidade fluida e experiências únicas que só os melhores equipamentos podem oferecer.`,
+    acessorios: `O ${product.name} é o acessório perfeito para complementar e potencializar seu dispositivo. Com qualidade de construção premium e design cuidadosamente elaborado, este produto oferece funcionalidade e estilo em harmonia. Compatível com os principais dispositivos do mercado, é uma adição essencial para quem busca o melhor desempenho e experiência.`,
+  };
+  return catDescriptions[product.categorySlug] ?? `${product.name} — produto de qualidade premium com garantia e entrega rápida.`;
+}

@@ -49,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </button>
 
       {/* Product Image */}
-      <Link href={`#product-${product.id}`} className="relative aspect-square overflow-hidden bg-muted">
+      <Link href={`/produto/${product.id}`} className="relative aspect-square overflow-hidden bg-muted">
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
@@ -62,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
       {/* Product Info */}
       <div className="flex flex-1 flex-col p-4">
         <span className="mb-1 text-xs font-medium text-primary">{product.category}</span>
-        <Link href={`#product-${product.id}`}>
+        <Link href={`/produto/${product.id}`}>
           <h3 className="mb-2 line-clamp-2 text-sm font-medium text-foreground transition-colors hover:text-primary">
             {product.name}
           </h3>
