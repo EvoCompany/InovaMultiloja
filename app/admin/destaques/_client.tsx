@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Star, StarOff, Package } from "lucide-react";
+import { Star, StarOff, Package, Search, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Product {
@@ -20,9 +20,14 @@ const MAX_FEATURED = 10;
 export function DestaquesClient({ products }: { products: Product[] }) {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
-  const featured = products.filter((p) => p.destaque);
-  const others = products.filter((p) => !p.destaque);
+  const filtered = query.trim()
+    ? products.filter((p) => p.nome.toLowerCase().includes(query.toLowerCase()))
+    : products;
+
+  const featured = filtered.filter((p) => p.destaque);
+  const others = filtered.filter((p) => !p.destaque);
   const atLimit = featured.length >= MAX_FEATURED;
 
   const toggle = async (id: string, currentFeatured: boolean) => {
@@ -87,7 +92,24 @@ export function DestaquesClient({ products }: { products: Product[] }) {
   };
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
+      <div className="relative">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Buscar por nome..."
+          className="w-full rounded-xl border border-border bg-card pl-10 pr-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+        />
+        {query && (
+          <button onClick={() => setQuery("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
+      <div className="space-y-10">
       <section>
         <div className="flex items-center gap-3 mb-4">
           <h2 className="font-semibold text-foreground">Em Destaque</h2>
@@ -139,6 +161,7 @@ export function DestaquesClient({ products }: { products: Product[] }) {
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 }
