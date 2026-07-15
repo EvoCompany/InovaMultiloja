@@ -19,7 +19,18 @@ const NAV = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("sidebar-expanded") === "true";
+    }
+    return false;
+  });
+
+  const toggle = () => {
+    const next = !expanded;
+    setExpanded(next);
+    localStorage.setItem("sidebar-expanded", String(next));
+  };
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -36,7 +47,7 @@ export function AdminSidebar() {
     >
       {/* Logo / Toggle */}
       <button
-        onClick={() => setExpanded((v) => !v)}
+        onClick={toggle}
         title={expanded ? "Recolher menu" : "Expandir menu"}
         className="h-14 flex items-center gap-3 px-3 border-b border-border flex-shrink-0 w-full hover:bg-muted/50 transition-colors"
       >
