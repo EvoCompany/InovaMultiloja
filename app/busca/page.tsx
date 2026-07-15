@@ -2,7 +2,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { BuscaClient } from "./_client";
-import { getDbAllProducts } from "@/lib/products-db";
+import { getDbAllProdutos } from "@/lib/products-db";
 
 export const revalidate = 0;
 
@@ -12,7 +12,7 @@ export default async function BuscaPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q = "" } = await searchParams;
-  const allProducts = await getDbAllProducts();
+  const allProducts = await getDbAllProdutos();
 
   return (
     <div className="min-h-screen bg-background">
