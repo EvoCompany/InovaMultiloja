@@ -1,17 +1,17 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import type { Product } from "@/lib/products";
+import type { Produto } from "@/lib/types";
 
-export interface CartItem extends Product {
+export interface CartItem extends Produto {
   quantity: number;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  addItem: (produto: Produto) => void;
+  removeItem: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   total: number;
   count: number;
@@ -26,24 +26,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addItem = useCallback((product: Product) => {
+  const addItem = useCallback((produto: Produto) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
+      const existing = prev.find((i) => i.id === produto.id);
       if (existing) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === produto.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...produto, quantity: 1 }];
     });
     setIsOpen(true);
   }, []);
 
-  const removeItem = useCallback((id: number) => {
+  const removeItem = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id));
   }, []);
 
-  const updateQuantity = useCallback((id: number, quantity: number) => {
+  const updateQuantity = useCallback((id: string, quantity: number) => {
     if (quantity <= 0) {
       setItems((prev) => prev.filter((i) => i.id !== id));
     } else {
@@ -55,7 +55,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = useCallback(() => setItems([]), []);
 
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const total = items.reduce(
+    (sum, i) => sum + (i.precoPromocional ?? i.preco) * i.quantity,
+    0
+  );
   const count = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
