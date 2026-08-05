@@ -1,125 +1,120 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock, Instagram, Facebook } from "lucide-react";
+import { MARCAS, TIPOS } from "@/lib/vehicles-data";
 
-const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=555596859071";
-const PHONE_NUMBER = "(55) 9 9685-9071";
-const PHONE_TEL = "tel:+555596859071";
+const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=5511999999999";
+const PHONE_NUMBER = "(11) 9 9999-9999";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-primary via-primary to-secondary text-primary-foreground">
+    <footer className="bg-[#0a0a0a] text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Logo & About */}
-          <div className="space-y-4 flex flex-col items-center md:items-start">
-            <Image
-              src="/logo.png"
-              alt="Inova Multiloja"
-              width={80}
-              height={80}
-              className="h-16 w-16 rounded-full object-cover shadow-md"
-            />
-            <p className="text-sm leading-relaxed opacity-90 text-center md:text-left">
-              A Inova Multiloja oferece os melhores produtos de tecnologia com preços imbatíveis, 
-              entrega rápida e atendimento personalizado.
+          <div className="space-y-4">
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/logo.jpg" alt="TFT Motors" width={52} height={52}
+                className="h-13 w-13 rounded object-cover" />
+              <span className="font-serif text-2xl font-bold text-primary">TFT Motors</span>
+            </Link>
+            <p className="text-sm leading-relaxed text-white/60">
+              Sua revenda de confiança. Amplo estoque de seminovos com qualidade,
+              procedência e as melhores condições de financiamento.
             </p>
             <div className="flex gap-3">
-              <a
-                href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 transition-colors hover:bg-primary-foreground/20"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5" />
+              <a href="#" aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-primary hover:text-primary-foreground">
+                <Instagram className="h-4 w-4" />
               </a>
-              <a
-                href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 transition-colors hover:bg-primary-foreground/20"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
+              <a href="#" aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-primary hover:text-primary-foreground">
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-green-500">
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
               </a>
             </div>
           </div>
 
-          {/* Links */}
-          <div className="text-center md:text-left">
-            <h3 className="mb-4 font-serif text-lg font-semibold">Institucional</h3>
-            <ul className="space-y-2 text-sm opacity-90">
-              <li><Link href="#" className="hover:underline">Quem Somos</Link></li>
-              <li><Link href="#" className="hover:underline">Política de Privacidade</Link></li>
-              <li><Link href="#" className="hover:underline">Termos de Uso</Link></li>
-              <li><Link href="#" className="hover:underline">Trocas e Devoluções</Link></li>
-              <li><Link href="#" className="hover:underline">Formas de Pagamento</Link></li>
+          {/* Marcas */}
+          <div>
+            <h3 className="mb-4 font-serif text-base font-bold text-primary uppercase tracking-wider">Marcas</h3>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm text-white/60">
+              {MARCAS.map((m) => (
+                <li key={m.slug}>
+                  <Link href={`/marca/${m.slug}`} className="hover:text-primary transition-colors">
+                    {m.nome}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Categories */}
-          <div className="text-center md:text-left">
-            <h3 className="mb-4 font-serif text-lg font-semibold">Categorias</h3>
-            <ul className="space-y-2 text-sm opacity-90">
-              <li><Link href="#smartphones" className="hover:underline">Smartphones</Link></li>
-              <li><Link href="#notebooks" className="hover:underline">Notebooks</Link></li>
-              <li><Link href="#tablets" className="hover:underline">Tablets</Link></li>
-              <li><Link href="#smartwatches" className="hover:underline">Smartwatches</Link></li>
-              <li><Link href="#acessorios" className="hover:underline">Acessórios</Link></li>
+          {/* Categorias */}
+          <div>
+            <h3 className="mb-4 font-serif text-base font-bold text-primary uppercase tracking-wider">Categorias</h3>
+            <ul className="space-y-1.5 text-sm text-white/60">
+              {TIPOS.map((t) => (
+                <li key={t.slug}>
+                  <Link href={`/categoria/${t.slug}`} className="hover:text-primary transition-colors">
+                    {t.nome}
+                  </Link>
+                </li>
+              ))}
+              <li className="mt-3 pt-3 border-t border-white/10">
+                <Link href="/comparador" className="font-semibold text-primary hover:text-primary/80 transition-colors">
+                  Comparador de Preços
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Contact */}
-          <div className="text-center md:text-left">
-            <h3 className="mb-4 font-serif text-lg font-semibold">Atendimento</h3>
-            <ul className="space-y-3 text-sm opacity-90">
-              <li className="flex items-center justify-center md:justify-start gap-2">
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <div className="flex flex-col gap-0.5">
-                  <a href={PHONE_TEL} className="hover:underline">{PHONE_NUMBER}</a>
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:underline text-xs opacity-80">WhatsApp</a>
-                </div>
+          <div>
+            <h3 className="mb-4 font-serif text-base font-bold text-primary uppercase tracking-wider">Contato</h3>
+            <ul className="space-y-3 text-sm text-white/60">
+              <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
+                <a href={`tel:${PHONE_NUMBER}`} className="hover:text-primary transition-colors">
+                  {PHONE_NUMBER}
+                </a>
               </li>
-              <li className="flex items-center justify-center md:justify-start gap-2">
-                <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>contato@inovamultiloja.com.br</span>
+              <li className="flex items-center gap-2">
+                <svg className="h-4 w-4 text-green-400 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors">
+                  WhatsApp
+                </a>
               </li>
-              <li className="flex items-center justify-center md:justify-start gap-2">
-                <MapPin className="h-4 w-4 flex-shrink-0" />
-                <span>Santiago, RS - Brasil</span>
+              <li className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                <span>contato@tftmotors.com.br</span>
               </li>
-              <li className="flex items-start justify-center md:justify-start gap-2">
-                <Clock className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                <span>Seg a Sex: 08:30 às 18:30<br />Sáb: 09:00-17:00</span>
+              <li className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                <span>Seu Endereço, Nº<br />Cidade - UF</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Clock className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                <span>Seg a Sex: 08:00 às 18:00<br />Sáb: 08:00 às 13:00</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Payment Methods & Security */}
-        <div className="mt-10 border-t border-primary-foreground/20 pt-8">
-          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
-            <div className="text-center md:text-left">
-              <p className="text-sm opacity-70">Formas de Pagamento</p>
-              <div className="mt-2 flex items-center gap-2">
-                {["Visa", "Mastercard", "Pix", "Boleto"].map((method) => (
-                  <span
-                    key={method}
-                    className="rounded bg-primary-foreground/10 px-3 py-1 text-xs font-medium"
-                  >
-                    {method}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="text-center md:text-right">
-              <p className="text-sm opacity-70">Site Seguro</p>
-              <p className="mt-1 text-xs opacity-50">SSL 256 bits | Compra 100% protegida</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-8 border-t border-primary-foreground/20 pt-6 text-center">
-          <p className="text-xs opacity-60">
-            © {new Date().getFullYear()} Inova Multiloja. Todos os direitos reservados.
+        {/* Bottom */}
+        <div className="mt-10 border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-white/40">
+            © {new Date().getFullYear()} TFT Motors. Todos os direitos reservados.
+          </p>
+          <p className="text-xs text-white/30">
+            *Financiamento sujeito a análise de crédito. Parcelas ilustrativas.
           </p>
         </div>
       </div>

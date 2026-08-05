@@ -2,8 +2,6 @@ import React from "react";
 import type { Metadata, Viewport } from "next";
 import { Roboto_Slab, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { CartProvider } from "@/context/cart-context";
-import { CartDrawerWrapper } from "@/components/cart-drawer-wrapper";
 import "./globals.css";
 
 const robotoSlab = Roboto_Slab({
@@ -21,13 +19,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Inova Multiloja - Os Melhores Produtos com os Melhores Preços",
+  title: "TFT Motors - Veículos Seminovos com Qualidade e Garantia",
   description:
-    "Encontre smartphones, eletrônicos, acessórios e muito mais com preços imbatíveis. Frete grátis e desconto no Pix!",
-  keywords: ["loja online", "eletrônicos", "smartphones", "acessórios", "promoções"],
+    "Encontre o carro ideal com qualidade, procedência e as melhores condições de financiamento. Amplo estoque de seminovos.",
+  keywords: ["veículos seminovos", "carros usados", "concessionária", "TFT Motors", "financiamento"],
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
   },
   robots: {
     index: true,
@@ -36,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#2d1b69",
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
 };
@@ -53,13 +51,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://api.whatsapp.com" />
       </head>
-      <body
-        className={`${inter.variable} ${robotoSlab.variable} font-sans antialiased`}
-      >
-        <CartProvider>
-          {children}
-          <CartDrawerWrapper />
-        </CartProvider>
+      <body className={`${inter.variable} ${robotoSlab.variable} font-sans antialiased`}>
+        {children}
         <Analytics />
       </body>
     </html>
