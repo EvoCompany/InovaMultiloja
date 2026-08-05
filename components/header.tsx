@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Menu, ChevronDown, Phone } from "lucide-react";
+import { Search, Menu, ShoppingCart, User, ChevronDown } from "lucide-react";
+import { useCart } from "@/context/cart-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,13 +14,61 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { MARCAS, TIPOS } from "@/lib/vehicles-data";
 
-const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=5511999999999";
-const PHONE_NUMBER = "(11) 9 9999-9999";
+const navCategories = [
+  {
+    name: "Smartphones",
+    href: "/smartphones",
+    subcategories: ["iPhone", "Samsung", "Xiaomi", "Motorola"],
+    slug: "smartphones",
+  },
+  {
+    name: "Notebooks",
+    href: "/notebooks",
+    subcategories: ["MacBook", "Dell", "ASUS", "Lenovo", "HP"],
+    slug: "notebooks",
+  },
+  {
+    name: "Tablets",
+    href: "/tablets",
+    subcategories: ["iPad", "Samsung Tab", "Xiaomi Pad"],
+    slug: "tablets",
+  },
+  {
+    name: "Smartwatches",
+    href: "/smartwatches",
+    subcategories: ["Apple Watch", "Samsung Galaxy Watch"],
+    slug: "smartwatches",
+  },
+  {
+    name: "Acessórios",
+    href: "/acessorios",
+    subcategories: ["Capas", "Carregadores", "Fones", "Hubs"],
+    slug: "acessorios",
+  },
+  {
+    name: "Áudio",
+    href: "/audio",
+    subcategories: ["AirPods", "Fones Bluetooth", "Caixas de Som"],
+    slug: "audio",
+  },
+  {
+    name: "Câmeras",
+    href: "/cameras",
+    subcategories: ["Canon", "Nikon", "GoPro", "DJI"],
+    slug: "cameras",
+  },
+  {
+    name: "Games",
+    href: "/games",
+    subcategories: ["PlayStation", "Xbox", "Nintendo", "PC Gamer"],
+    slug: "games",
+  },
+];
 
 export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { count, openCart } = useCart();
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -31,169 +80,157 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Top Bar */}
-      <div className="bg-[#0a0a0a] text-white">
+      <div className="bg-gradient-to-r from-secondary to-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="hidden sm:flex items-center gap-1.5">
-              <Phone className="h-3 w-3 text-primary" />
-              <a href={`tel:${PHONE_NUMBER}`} className="hover:text-primary transition-colors">
-                {PHONE_NUMBER}
-              </a>
-            </span>
-            <span className="hidden sm:inline text-white/40">•</span>
-            <span className="text-white/70">Segunda a Sábado — 08:00 às 18:00</span>
-            <span className="hidden sm:inline text-white/40">•</span>
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 text-green-400 hover:text-green-300 transition-colors"
-            >
-              <svg className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-              WhatsApp
-            </a>
+          <div className="flex items-center justify-center text-xs gap-3">
+            <span>Frete Grátis em todo o site</span>
+            <span className="hidden sm:inline opacity-60">•</span>
+            <span className="hidden sm:inline font-medium">7% OFF no Pix</span>
+            <span className="hidden lg:inline opacity-60">•</span>
+            <span className="hidden lg:inline">Parcelamos em até 12x</span>
           </div>
         </div>
       </div>
 
       {/* Main Header */}
-      <div className="bg-[#111111] border-b border-white/10">
+      <div className="border-b border-border bg-card shadow-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center gap-4">
-            {/* Mobile menu + Logo */}
+            {/* Hamburger + Logo à esquerda */}
             <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Mobile Menu */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden text-white hover:bg-white/10">
+                  <Button variant="ghost" size="icon" className="md:hidden">
                     <Menu className="h-6 w-6" />
                     <span className="sr-only">Menu</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-80 bg-[#111] text-white border-white/10">
+                <SheetContent side="left" className="w-80">
                   <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
                   <div className="flex flex-col gap-6 pt-6">
-                    <Link href="/" className="flex items-center gap-3 px-2">
-                      <Image src="/logo.jpg" alt="TFT Motors" width={48} height={48}
-                        className="h-12 w-12 rounded object-cover" />
-                      <span className="font-serif text-xl font-bold text-primary">TFT Motors</span>
+                    <Link href="/" className="flex items-center justify-center gap-2">
+                      <Image
+                        src="/logo.png"
+                        alt="Inova Multiloja"
+                        width={120}
+                        height={120}
+                        className="h-16 w-16 rounded-full object-cover shadow-md"
+                      />
                     </Link>
                     <nav className="flex flex-col gap-1">
-                      <p className="mb-1 text-xs font-semibold text-white/40 uppercase tracking-wider px-3">Marcas</p>
-                      {MARCAS.map((m) => (
-                        <Link key={m.slug} href={`/marca/${m.slug}`}
-                          className="px-3 py-2 rounded text-sm text-white/80 hover:bg-white/10 hover:text-primary transition-colors">
-                          {m.nome}
-                        </Link>
+                      <p className="mb-2 font-serif text-sm font-semibold text-muted-foreground px-3">
+                        Categorias
+                      </p>
+                      {navCategories.map((category) => (
+                        <div key={category.name}>
+                          <Link
+                            href={category.href}
+                            className="rounded-lg px-3 py-2 text-foreground transition-colors hover:bg-muted flex items-center justify-between font-medium"
+                          >
+                            {category.name}
+                          </Link>
+                          <div className="pl-5 flex flex-col gap-0.5">
+                            {category.subcategories.map((sub) => (
+                              <Link
+                                key={sub}
+                                href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                                className="rounded-lg px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                              >
+                                {sub}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
                       ))}
-                      <p className="mt-3 mb-1 text-xs font-semibold text-white/40 uppercase tracking-wider px-3">Categorias</p>
-                      {TIPOS.map((t) => (
-                        <Link key={t.slug} href={`/categoria/${t.slug}`}
-                          className="px-3 py-2 rounded text-sm text-white/80 hover:bg-white/10 hover:text-primary transition-colors">
-                          {t.nome}
-                        </Link>
-                      ))}
-                      <div className="mt-3 border-t border-white/10 pt-3">
-                        <Link href="/comparador"
-                          className="px-3 py-2 rounded text-sm font-semibold text-primary hover:bg-white/10 transition-colors block">
-                          Comparador de Preços
-                        </Link>
-                      </div>
                     </nav>
                   </div>
                 </SheetContent>
               </Sheet>
 
-              <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-                <Image src="/logo.jpg" alt="TFT Motors" width={48} height={48}
-                  className="h-10 w-10 md:h-12 md:w-12 rounded object-cover" priority />
-                <span className="hidden sm:block font-serif text-xl font-bold text-primary leading-none">
-                  TFT Motors
-                </span>
+              {/* Logo */}
+              <Link href="/" className="flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Inova Multiloja"
+                  width={140}
+                  height={140}
+                  className="h-12 w-12 rounded-full object-cover shadow-md md:h-14 md:w-14"
+                  priority
+                />
               </Link>
             </div>
 
-            {/* Search bar */}
+            {/* Barra de busca flex-1 no centro */}
             <form onSubmit={handleSearch} className="flex-1">
               <div className="relative w-full max-w-2xl mx-auto">
                 <Input
                   type="search"
-                  placeholder="Buscar por marca, modelo ou ano..."
+                  placeholder="O que você está procurando?"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-10 pr-12 pl-4 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:bg-white/15"
+                  className="h-11 pr-12 pl-4"
                 />
-                <Button type="submit" size="icon"
-                  className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="absolute top-1/2 right-1 h-9 w-9 -translate-y-1/2 bg-gradient-to-r from-secondary to-primary hover:opacity-90"
+                >
                   <Search className="h-4 w-4" />
                   <span className="sr-only">Buscar</span>
                 </Button>
               </div>
             </form>
 
-            {/* WhatsApp CTA */}
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-              className="hidden lg:flex flex-shrink-0 items-center gap-2 rounded-lg bg-green-600 hover:bg-green-500 px-4 py-2 text-sm font-semibold text-white transition-colors">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-              Fale Conosco
-            </a>
+            {/* Ícone carrinho à direita */}
+            <button
+              onClick={openCart}
+              className="flex-shrink-0 flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors relative"
+              aria-label="Carrinho de compras"
+            >
+              <div className="relative">
+                <ShoppingCart className="h-6 w-6" />
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-primary-foreground">
+                  {count}
+                </span>
+              </div>
+              <span className="hidden text-xs font-medium md:block">Carrinho</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Nav Bar */}
-      <nav className="hidden bg-primary md:block">
+      {/* Categories Nav */}
+      <nav className="hidden border-b border-border bg-primary md:block">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center gap-0">
-            {/* Marcas dropdown */}
-            <li className="group relative">
-              <button className="flex items-center gap-1.5 whitespace-nowrap px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-black/15">
-                Marcas <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              <div className="absolute top-full left-0 z-50 hidden min-w-[200px] rounded-b border border-border bg-card shadow-xl group-hover:block">
-                <ul className="py-2">
-                  {MARCAS.map((m) => (
-                    <li key={m.slug}>
-                      <Link href={`/marca/${m.slug}`}
-                        className="flex items-center justify-between px-4 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary-foreground transition-colors">
-                        <span>{m.nome}</span>
-                        <span className="text-xs text-muted-foreground">{m.pais}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
+          <ul className="flex items-center justify-center gap-0">
+            {navCategories.map((category) => (
+              <li key={category.name} className="group relative">
+                <Link
+                  href={category.href}
+                  className="flex items-center gap-1 whitespace-nowrap px-4 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/10"
+                >
+                  {category.name}
+                  <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+                </Link>
 
-            {/* Categorias dropdown */}
-            <li className="group relative">
-              <button className="flex items-center gap-1.5 whitespace-nowrap px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-black/15">
-                Categorias <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              <div className="absolute top-full left-0 z-50 hidden min-w-[160px] rounded-b border border-border bg-card shadow-xl group-hover:block">
-                <ul className="py-2">
-                  {TIPOS.map((t) => (
-                    <li key={t.slug}>
-                      <Link href={`/categoria/${t.slug}`}
-                        className="block px-4 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary-foreground transition-colors">
-                        {t.nome}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-
-            {/* Comparador */}
-            <li>
-              <Link href="/comparador"
-                className="flex items-center whitespace-nowrap px-5 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-black/15">
-                Comparador
-              </Link>
-            </li>
+                {/* Dropdown */}
+                <div className="absolute top-full left-0 z-50 hidden min-w-[160px] rounded-b-lg border border-border bg-card shadow-lg group-hover:block">
+                  <ul className="py-2">
+                    {category.subcategories.map((sub) => (
+                      <li key={sub}>
+                        <Link
+                          href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                          className="block px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted hover:text-primary"
+                        >
+                          {sub}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </nav>

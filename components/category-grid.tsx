@@ -1,72 +1,43 @@
 import Link from "next/link";
+import { Smartphone, Laptop, Tablet, Watch, Headphones, Camera, Gamepad2, Cable } from "lucide-react";
 
-const bodyTypes = [
-  {
-    nome: "Hatch",
-    slug: "hatch",
-    emoji: "🚗",
-    desc: "Compacto e econômico",
-  },
-  {
-    nome: "Sedan",
-    slug: "sedan",
-    emoji: "🚙",
-    desc: "Conforto e espaço",
-  },
-  {
-    nome: "SUV",
-    slug: "suv",
-    emoji: "🚐",
-    desc: "Força e versatilidade",
-  },
-  {
-    nome: "Picape",
-    slug: "picape",
-    emoji: "🛻",
-    desc: "Trabalho e aventura",
-  },
-  {
-    nome: "Minivan",
-    slug: "minivan",
-    emoji: "🚌",
-    desc: "Família em primeiro lugar",
-  },
-  {
-    nome: "Conversível",
-    slug: "conversivel",
-    emoji: "🏎️",
-    desc: "Estilo e emoção",
-  },
+const categories = [
+  { name: "Smartphones", icon: Smartphone, href: "/smartphones" },
+  { name: "Notebooks", icon: Laptop, href: "/notebooks" },
+  { name: "Tablets", icon: Tablet, href: "/tablets" },
+  { name: "Smartwatches", icon: Watch, href: "/smartwatches" },
+  { name: "Áudio", icon: Headphones, href: "/audio" },
+  { name: "Câmeras", icon: Camera, href: "/cameras" },
+  { name: "Games", icon: Gamepad2, href: "/games" },
+  { name: "Acessórios", icon: Cable, href: "/acessorios" },
 ];
 
 export function CategoryGrid() {
   return (
-    <section className="py-10 md:py-14 bg-background">
+    <section className="py-8 md:py-12">
       <div className="container mx-auto px-4">
-        <div className="mb-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-1">
-            <div className="h-0.5 w-10 bg-secondary" />
+        <div className="mb-8 flex flex-col items-center">
+          <div className="flex items-center gap-3 mb-1">
+            <div className="h-0.5 w-12 bg-secondary" />
             <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl uppercase tracking-wide">
-              Buscar por Categoria
+              Compre por Categoria
             </h2>
-            <div className="h-0.5 w-10 bg-secondary" />
+            <div className="h-0.5 w-12 bg-secondary" />
           </div>
-          <p className="text-muted-foreground text-sm mt-2">Encontre o modelo perfeito para o seu estilo de vida</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-          {bodyTypes.map((type) => (
+        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+          {categories.map((category) => (
             <Link
-              key={type.slug}
-              href={`/categoria/${type.slug}`}
-              className="group flex flex-col items-center gap-3 rounded-xl bg-card p-5 shadow-sm border border-border transition-all hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
+              key={category.name}
+              href={category.href}
+              className="group flex w-24 flex-col items-center gap-2 rounded-xl bg-card p-4 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-border hover:border-primary/30 md:w-32"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 text-3xl transition-all group-hover:from-primary/25 group-hover:to-secondary/25">
-                {type.emoji}
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-secondary/15 to-primary/15 transition-all group-hover:from-secondary/30 group-hover:to-primary/30 md:h-[4.5rem] md:w-[4.5rem]">
+                <category.icon className="h-7 w-7 text-primary md:h-9 md:w-9" />
               </div>
-              <div className="text-center">
-                <p className="text-sm font-bold text-foreground">{type.nome}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{type.desc}</p>
-              </div>
+              <span className="text-center text-xs font-semibold text-foreground uppercase tracking-wide md:text-sm">
+                {category.name}
+              </span>
             </Link>
           ))}
         </div>
