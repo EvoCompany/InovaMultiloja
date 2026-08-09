@@ -49,8 +49,7 @@ export default async function Home() {
           </div>
         </AnimateOnScroll>
 
-        <AnimateOnScroll>
-          <section className="bg-primary py-12 md:py-16">
+        <section className="bg-primary py-12 md:py-16">
             <div className="container mx-auto px-4 text-center">
               <h2 className="mb-3 font-serif text-2xl font-bold text-primary-foreground md:text-3xl text-balance">
                 Fale Conosco pelo WhatsApp
@@ -71,9 +70,7 @@ export default async function Home() {
               </a>
             </div>
           </section>
-        </AnimateOnScroll>
 
-        <AnimateOnScroll>
           <div className="bg-primary">
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 text-primary-foreground text-sm">
@@ -93,7 +90,6 @@ export default async function Home() {
               </div>
             </div>
           </div>
-        </AnimateOnScroll>
       </main>
       <Footer />
       <WhatsAppFloat />
