@@ -12,8 +12,7 @@ const banners = [
     discount: "40% OFF",
     cta: "VER OFERTAS",
     href: "/smartphones",
-    bgFrom: "#0070CD",
-    bgTo: "#004A99",
+    overlay: "from-secondary/85 via-primary/75 to-primary/80",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1920&q=80",
   },
   {
@@ -24,8 +23,7 @@ const banners = [
     discount: "R$ 1.999",
     cta: "CONFERIR",
     href: "/notebooks",
-    bgFrom: "#1a1a2e",
-    bgTo: "#0070CD",
+    overlay: "from-primary/85 via-primary/75 to-secondary/80",
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1920&q=80",
   },
   {
@@ -36,8 +34,7 @@ const banners = [
     discount: "35% OFF",
     cta: "APROVEITAR",
     href: "/audio",
-    bgFrom: "#004A99",
-    bgTo: "#0070CD",
+    overlay: "from-secondary/80 via-primary/75 to-primary/85",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1920&q=80",
   },
 ];
@@ -127,14 +124,14 @@ export function HeroBanner() {
             <div
               key={banner.id}
               className="relative min-w-full overflow-hidden py-14 md:py-20"
-              style={{ background: `linear-gradient(135deg, ${banner.bgFrom} 0%, ${banner.bgTo} 100%)` }}
             >
-              {/* Imagem com overlay */}
+              {/* Foto de fundo com Ken Burns */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
                 style={{ backgroundImage: `url(${banner.image})` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
+              {/* Overlay de cor da marca */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${banner.overlay}`} />
 
               {/* Conteúdo */}
               <div className="relative z-10 container mx-auto px-4 text-white">
@@ -153,7 +150,7 @@ export function HeroBanner() {
                     {banner.title}
                   </h2>
                   <p className="text-lg md:text-xl opacity-90 mb-1">{banner.subtitle}</p>
-                  <p className="font-serif font-bold text-4xl md:text-5xl text-secondary mb-6 drop-shadow-md">
+                  <p className="font-serif font-bold text-4xl md:text-5xl text-primary-foreground mb-6 drop-shadow-md">
                     {banner.discount}
                   </p>
 

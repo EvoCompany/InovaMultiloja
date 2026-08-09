@@ -50,7 +50,7 @@ export default async function Home() {
         </AnimateOnScroll>
 
         <AnimateOnScroll>
-          <section className="bg-primary py-12 md:py-16" style={{background: 'linear-gradient(135deg, #004A99 0%, #0070CD 100%)'}}>
+          <section className="bg-gradient-to-r from-secondary via-primary to-primary py-12 md:py-16">
             <div className="container mx-auto px-4 text-center">
               <h2 className="mb-3 font-serif text-2xl font-bold text-primary-foreground md:text-3xl text-balance">
                 Fale Conosco pelo WhatsApp

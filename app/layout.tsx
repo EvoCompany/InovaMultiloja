@@ -1,15 +1,14 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Oswald, Inter } from "next/font/google";
+import { Roboto_Slab, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { CartProvider } from "@/context/cart-context";
 import { CartDrawerWrapper } from "@/components/cart-drawer-wrapper";
 import "./globals.css";
 
-const oswald = Oswald({
+const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   variable: "--font-serif",
-  weight: ["400", "500", "600", "700"],
   display: "swap",
   preload: true,
 });
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0070CD",
+  themeColor: "#2d1b69",
   width: "device-width",
   initialScale: 1,
 };
@@ -55,7 +54,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.whatsapp.com" />
       </head>
       <body
-        className={`${inter.variable} ${oswald.variable} font-sans antialiased`}
+        className={`${inter.variable} ${robotoSlab.variable} font-sans antialiased`}
       >
         <CartProvider>
           {children}
