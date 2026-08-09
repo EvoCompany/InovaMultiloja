@@ -215,7 +215,7 @@ export function Header() {
                 </Link>
 
                 {/* Dropdown */}
-                <div className="absolute top-full left-0 z-50 hidden min-w-[160px] rounded-b-lg border border-border bg-card shadow-lg group-hover:block">
+                <div className="absolute top-full left-0 z-50 min-w-[160px] rounded-b-lg border border-border bg-card shadow-lg pointer-events-none opacity-0 -translate-y-1 invisible transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible">
                   <ul className="py-2">
                     {category.subcategories.map((sub) => (
                       <li key={sub}>

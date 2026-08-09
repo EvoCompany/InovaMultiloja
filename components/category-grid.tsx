@@ -26,16 +26,17 @@ export function CategoryGrid() {
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <Link
               key={category.name}
               href={category.href}
-              className="group flex w-24 flex-col items-center gap-2 rounded-xl bg-card p-4 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 border border-border hover:border-primary/30 md:w-32"
+              className="group flex w-24 flex-col items-center gap-2 rounded-xl bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1.5 hover:shadow-primary/10 border border-transparent hover:border-primary/20 md:w-32 animate-[fade-up_0.5s_ease_both]"
+              style={{ animationDelay: `${index * 60}ms` }}
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-secondary/15 to-primary/15 transition-all group-hover:from-secondary/30 group-hover:to-primary/30 md:h-[4.5rem] md:w-[4.5rem]">
-                <category.icon className="h-7 w-7 text-primary md:h-9 md:w-9" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-secondary/15 to-primary/15 transition-all duration-300 group-hover:from-secondary/30 group-hover:to-primary/30 group-hover:scale-110 md:h-[4.5rem] md:w-[4.5rem]">
+                <category.icon className="h-7 w-7 text-primary transition-transform duration-300 group-hover:scale-110 md:h-9 md:w-9" />
               </div>
-              <span className="text-center text-xs font-semibold text-foreground uppercase tracking-wide md:text-sm">
+              <span className="text-center text-xs font-semibold text-foreground uppercase tracking-wide transition-colors duration-200 group-hover:text-primary md:text-sm">
                 {category.name}
               </span>
             </Link>

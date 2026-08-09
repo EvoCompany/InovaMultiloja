@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const whatsappLink = `https://api.whatsapp.com/send?phone=555596859071&text=${whatsappMsg}`;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl bg-card shadow-sm transition-all hover:shadow-lg">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl bg-card shadow-sm border border-transparent transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1.5 hover:border-primary/15">
       {/* Badges */}
       <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
         {isNew && (
@@ -70,6 +70,8 @@ export function ProductCard({ product }: ProductCardProps) {
           sizes="(max-width: 640px) calc(50vw - 1.5rem), (max-width: 768px) calc(33vw - 1.5rem), 280px"
           loading="lazy"
         />
+        {/* Shine sweep on hover */}
+        <span className="absolute inset-0 translate-x-[-100%] skew-x-[-12deg] bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:translate-x-[200%] transition-transform duration-700 pointer-events-none" />
       </Link>
 
       <div className="flex flex-1 flex-col p-4">
@@ -114,7 +116,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="mt-3 flex flex-col gap-2">
           <Button
             onClick={() => addItem(product)}
-            className="w-full bg-gradient-to-r from-secondary to-primary text-primary-foreground hover:opacity-90 font-semibold"
+            className="w-full bg-gradient-to-r from-secondary to-primary text-primary-foreground hover:opacity-95 font-semibold shadow-sm hover:shadow-md hover:shadow-secondary/25 transition-all duration-300"
             size="sm"
           >
             <ShoppingCart className="mr-1.5 h-4 w-4" />

@@ -9,13 +9,15 @@ const banners = [
     id: 1,
     title: "Ofertas Imperdíveis",
     subtitle: "Até 40% OFF em Smartphones",
+    badge: "Promoção",
     cta: "Ver Ofertas",
     gradient: "from-secondary via-primary to-primary",
   },
   {
     id: 2,
     title: "Novos Lançamentos",
-    subtitle: "iPhones e iPads com desconto",
+    subtitle: "iPhones e iPads com desconto especial",
+    badge: "Novo",
     cta: "Conferir",
     gradient: "from-primary via-primary to-secondary",
   },
@@ -23,6 +25,7 @@ const banners = [
     id: 3,
     title: "Frete Grátis",
     subtitle: "Em todas as compras do site",
+    badge: "Exclusivo",
     cta: "Aproveitar",
     gradient: "from-secondary to-primary",
   },
@@ -50,24 +53,20 @@ function getTimeUntilEndOfMonth(): TimeLeft {
   const now = new Date();
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
   const diff = endOfMonth.getTime() - now.getTime();
-
-  if (diff <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-  return { days, hours, minutes, seconds };
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((diff % (1000 * 60)) / 1000),
+  };
 }
 
 function TimeBox({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-primary text-primary-foreground">
-      <span className="text-xl font-bold leading-none">{pad(value)}</span>
-      <span className="text-[10px] uppercase mt-0.5">{label}</span>
+    <div className="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-primary text-primary-foreground border border-primary/20 animate-[glow-pulse_3s_ease-in-out_infinite]">
+      <span className="text-xl font-bold leading-none tabular-nums">{pad(value)}</span>
+      <span className="text-[10px] uppercase mt-0.5 opacity-70 tracking-widest">{label}</span>
     </div>
   );
 }
@@ -77,22 +76,18 @@ function CountdownTimer() {
 
   useEffect(() => {
     setTimeLeft(getTimeUntilEndOfMonth());
-
-    const interval = setInterval(() => {
-      setTimeLeft(getTimeUntilEndOfMonth());
-    }, 1000);
-
+    const interval = setInterval(() => setTimeLeft(getTimeUntilEndOfMonth()), 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="flex items-center gap-2">
       <TimeBox value={timeLeft.days} label="Dias" />
-      <span className="text-xl font-bold text-foreground">:</span>
+      <span className="text-xl font-bold text-foreground/60">:</span>
       <TimeBox value={timeLeft.hours} label="Horas" />
-      <span className="text-xl font-bold text-foreground">:</span>
+      <span className="text-xl font-bold text-foreground/60">:</span>
       <TimeBox value={timeLeft.minutes} label="Min" />
-      <span className="text-xl font-bold text-foreground">:</span>
+      <span className="text-xl font-bold text-foreground/60">:</span>
       <TimeBox value={timeLeft.seconds} label="Seg" />
     </div>
   );
@@ -102,9 +97,7 @@ export function HeroBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % banners.length);
-    }, 5000);
+    const timer = setInterval(() => setCurrentSlide((prev) => (prev + 1) % banners.length), 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -119,24 +112,45 @@ export function HeroBanner() {
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
-          {banners.map((banner) => (
+          {banners.map((banner, i) => (
             <div
               key={banner.id}
-              className={`min-w-full bg-gradient-to-r ${banner.gradient} px-4 py-16 md:py-24`}
+              className={`relative min-w-full overflow-hidden bg-gradient-to-r ${banner.gradient} px-4 py-20 md:py-28`}
             >
-              <div className="container mx-auto text-center text-primary-foreground">
-                <h2 className="mb-2 font-serif text-3xl font-bold md:text-5xl">
-                  {banner.title}
-                </h2>
-                <p className="mb-6 text-lg opacity-90 md:text-xl">
-                  {banner.subtitle}
-                </p>
-                <Button
-                  size="lg"
-                  className="bg-card text-primary hover:bg-card/90"
+              {/* Floating decorative blobs */}
+              <div className="absolute -top-8 right-[8%] w-72 h-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none animate-[float_9s_ease-in-out_infinite]" />
+              <div className="absolute -bottom-8 left-[6%] w-60 h-60 rounded-full bg-white/[0.07] blur-3xl pointer-events-none animate-[float_7s_ease-in-out_infinite_1.5s]" />
+              <div className="absolute top-1/3 right-1/3 w-44 h-44 rounded-full bg-secondary/[0.12] blur-2xl pointer-events-none animate-[float_11s_ease-in-out_infinite_3s]" />
+
+              {/* Content */}
+              <div className="relative z-10 container mx-auto text-center text-primary-foreground">
+                <div
+                  key={i === currentSlide ? `active-${currentSlide}` : `passive-${banner.id}`}
+                  className={i === currentSlide ? "animate-[fade-up_0.55s_ease-out_both]" : ""}
                 >
-                  {banner.cta}
-                </Button>
+                  {/* Badge */}
+                  <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-secondary animate-pulse" />
+                    <span className="text-xs font-semibold uppercase tracking-widest opacity-90">
+                      {banner.badge}
+                    </span>
+                  </div>
+
+                  <h2 className="mb-3 font-serif text-4xl font-bold leading-tight md:text-5xl lg:text-6xl drop-shadow-sm">
+                    {banner.title}
+                  </h2>
+                  <p className="mb-8 text-lg opacity-85 md:text-xl">
+                    {banner.subtitle}
+                  </p>
+
+                  <Button
+                    size="lg"
+                    className="relative overflow-hidden bg-card text-primary hover:bg-card font-semibold px-8 shadow-lg hover:shadow-xl transition-shadow duration-300 group/btn"
+                  >
+                    <span className="relative z-10">{banner.cta}</span>
+                    <span className="absolute inset-0 translate-x-[-100%] skew-x-[-12deg] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover/btn:translate-x-[200%] transition-transform duration-700 pointer-events-none" />
+                  </Button>
+                </div>
               </div>
             </div>
           ))}
@@ -145,27 +159,27 @@ export function HeroBanner() {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-card/80 p-2 text-foreground shadow-lg transition-all hover:bg-card"
+          className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-card/80 backdrop-blur-sm p-2.5 text-foreground shadow-lg transition-all duration-200 hover:bg-card hover:scale-105"
           aria-label="Banner anterior"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-card/80 p-2 text-foreground shadow-lg transition-all hover:bg-card"
+          className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-card/80 backdrop-blur-sm p-2.5 text-foreground shadow-lg transition-all duration-200 hover:bg-card hover:scale-105"
           aria-label="Próximo banner"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
 
         {/* Dots */}
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2 items-center">
           {banners.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentSlide ? "w-8 bg-card" : "w-2 bg-card/50"
+              className={`rounded-full transition-all duration-300 ${
+                index === currentSlide ? "w-8 h-2 bg-card" : "w-2 h-2 bg-card/50 hover:bg-card/75"
               }`}
               aria-label={`Ir para banner ${index + 1}`}
             />
@@ -200,10 +214,10 @@ export function HeroBanner() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center gap-3 text-center md:justify-start md:text-left"
+                className="group flex items-center justify-center gap-3 text-center md:justify-start md:text-left cursor-default"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-secondary/20 to-primary/20">
-                  <benefit.icon className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 transition-all duration-300 group-hover:from-secondary/35 group-hover:to-primary/35 group-hover:scale-110 group-hover:shadow-sm">
+                  <benefit.icon className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">{benefit.text}</p>
