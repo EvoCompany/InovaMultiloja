@@ -11,7 +11,8 @@ const banners = [
     subtitle: "Até 40% OFF em Smartphones",
     badge: "Promoção",
     cta: "Ver Ofertas",
-    gradient: "from-secondary via-primary to-primary",
+    overlay: "from-secondary/85 via-primary/75 to-primary/80",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1920&q=80",
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ const banners = [
     subtitle: "iPhones e iPads com desconto especial",
     badge: "Novo",
     cta: "Conferir",
-    gradient: "from-primary via-primary to-secondary",
+    overlay: "from-primary/85 via-primary/75 to-secondary/80",
+    image: "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=1920&q=80",
   },
   {
     id: 3,
@@ -27,7 +29,8 @@ const banners = [
     subtitle: "Em todas as compras do site",
     badge: "Exclusivo",
     cta: "Aproveitar",
-    gradient: "from-secondary to-primary",
+    overlay: "from-secondary/80 via-primary/75 to-primary/85",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1920&q=80",
   },
 ];
 
@@ -115,8 +118,16 @@ export function HeroBanner() {
           {banners.map((banner, i) => (
             <div
               key={banner.id}
-              className={`relative min-w-full overflow-hidden bg-gradient-to-r ${banner.gradient} px-4 py-20 md:py-28`}
+              className="relative min-w-full overflow-hidden px-4 py-20 md:py-28"
             >
+              {/* Background photo with Ken Burns subtle zoom */}
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url(${banner.image})` }}
+              />
+              {/* Color overlay — preserves brand identity and text legibility */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${banner.overlay}`} />
+
               {/* Floating decorative blobs */}
               <div className="absolute -top-8 right-[8%] w-72 h-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none animate-[float_9s_ease-in-out_infinite]" />
               <div className="absolute -bottom-8 left-[6%] w-60 h-60 rounded-full bg-white/[0.07] blur-3xl pointer-events-none animate-[float_7s_ease-in-out_infinite_1.5s]" />
