@@ -79,10 +79,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-secondary to-primary text-primary-foreground">
+      {/* Top Bar — mesma cor do nav para não criar efeito napolitano */}
+      <div className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-center text-xs gap-3">
+          <div className="flex items-center justify-center text-xs gap-3 opacity-90">
             <span>Frete Grátis em todo o site</span>
             <span className="hidden sm:inline opacity-60">•</span>
             <span className="hidden sm:inline font-medium">7% OFF no Pix</span>

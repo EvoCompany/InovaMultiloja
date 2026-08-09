@@ -198,10 +198,12 @@ export function HeroBanner() {
         </div>
       </div>
 
-      {/* Ofertas do Mês */}
-      <section className="bg-gradient-to-r from-secondary/10 to-primary/10 border-y border-border py-6">
+      {/* Faixa unificada: Ofertas + Benefícios — sem bordas duras, mesma superfície */}
+      <div className="bg-card shadow-sm">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+
+          {/* Linha: countdown de ofertas */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-5 border-b border-border/40">
             <div className="flex items-center gap-3">
               <div className="h-10 w-1.5 rounded-full bg-secondary" />
               <div>
@@ -215,13 +217,9 @@ export function HeroBanner() {
             </div>
             <CountdownTimer />
           </div>
-        </div>
-      </section>
 
-      {/* Benefits Bar */}
-      <div className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {/* Linha: benefícios */}
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 py-4">
             {benefits.map((benefit, index) => (
               <div
                 key={index}
@@ -237,6 +235,7 @@ export function HeroBanner() {
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>
