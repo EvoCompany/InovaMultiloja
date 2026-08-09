@@ -1,17 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 interface Props {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ status?: string }>;
 }
 
 export default async function PedidoPage({ params, searchParams }: Props) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
   const { id } = await params;
   const { status } = await searchParams;
 
