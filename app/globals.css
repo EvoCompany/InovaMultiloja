@@ -202,6 +202,11 @@
   50% { box-shadow: 0 0 22px 5px oklch(0.55 0.28 25 / 0.45); }
 }
 
+@keyframes ken-burns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
 /* Scroll Reveal */
 [data-reveal] {
   opacity: 0;

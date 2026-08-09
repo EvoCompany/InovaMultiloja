@@ -122,7 +122,7 @@ export function HeroBanner() {
             >
               {/* Background photo with Ken Burns subtle zoom */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
                 style={{ backgroundImage: `url(${banner.image})` }}
               />
               {/* Color overlay — preserves brand identity and text legibility */}
