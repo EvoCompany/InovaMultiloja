@@ -79,7 +79,7 @@ export function Header() {
     /* Header inteiro = uma peça só com gradiente laranja→rosa→roxo */
     <header
       className="sticky top-0 z-50 w-full shadow-lg"
-      style={{ background: "linear-gradient(to right, var(--color-secondary), #e879a0, var(--color-primary))" }}
+      style={{ background: "linear-gradient(to right, var(--color-secondary), #cc2200, var(--color-primary))" }}
     >
       {/* Faixa de promoções */}
       <div className="border-b border-white/20">
