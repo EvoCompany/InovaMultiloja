@@ -2,47 +2,55 @@
 
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Truck, CreditCard, Shield, Percent } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const banners = [
   {
     id: 1,
-    title: "Ofertas Imperdíveis",
-    subtitle: "Até 40% OFF em Smartphones",
-    badge: "Promoção",
-    cta: "Ver Ofertas",
-    overlay: "from-secondary/85 via-primary/75 to-primary/80",
+    badge: "OFERTA DO DIA",
+    title: "Smartphones",
+    subtitle: "com até",
+    discount: "40% OFF",
+    cta: "VER OFERTAS",
+    href: "/smartphones",
+    bgFrom: "#0070CD",
+    bgTo: "#004A99",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1920&q=80",
   },
   {
     id: 2,
-    title: "Novos Lançamentos",
-    subtitle: "iPhones e iPads com desconto especial",
-    badge: "Novo",
-    cta: "Conferir",
-    overlay: "from-primary/85 via-primary/75 to-secondary/80",
-    image: "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=1920&q=80",
+    badge: "LANÇAMENTO",
+    title: "Notebooks",
+    subtitle: "a partir de",
+    discount: "R$ 1.999",
+    cta: "CONFERIR",
+    href: "/notebooks",
+    bgFrom: "#1a1a2e",
+    bgTo: "#0070CD",
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1920&q=80",
   },
   {
     id: 3,
-    title: "Frete Grátis",
-    subtitle: "Em todas as compras do site",
-    badge: "Exclusivo",
-    cta: "Aproveitar",
-    overlay: "from-secondary/80 via-primary/75 to-primary/85",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1920&q=80",
+    badge: "FRETE GRÁTIS",
+    title: "Áudio & Games",
+    subtitle: "desconto de até",
+    discount: "35% OFF",
+    cta: "APROVEITAR",
+    href: "/audio",
+    bgFrom: "#004A99",
+    bgTo: "#0070CD",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1920&q=80",
   },
 ];
 
 const benefits = [
-  { icon: Truck, text: "Frete Grátis", subtext: "Em todo Brasil" },
-  { icon: Percent, text: "7% OFF", subtext: "No Pix" },
-  { icon: CreditCard, text: "Até 12x", subtext: "Sem juros" },
+  { icon: Truck, text: "Frete Grátis", subtext: "Em todo o Brasil" },
+  { icon: Percent, text: "7% OFF no Pix", subtext: "Desconto direto" },
+  { icon: CreditCard, text: "Até 12x", subtext: "Sem juros no cartão" },
   { icon: Shield, text: "Compra Segura", subtext: "100% protegida" },
 ];
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
+function pad(v: number) {
+  return String(v).padStart(2, "0");
 }
 
 interface TimeLeft {
@@ -54,8 +62,8 @@ interface TimeLeft {
 
 function getTimeUntilEndOfMonth(): TimeLeft {
   const now = new Date();
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
-  const diff = endOfMonth.getTime() - now.getTime();
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
+  const diff = end.getTime() - now.getTime();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -67,9 +75,9 @@ function getTimeUntilEndOfMonth(): TimeLeft {
 
 function TimeBox({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-primary text-primary-foreground border border-primary/20 animate-[glow-pulse_3s_ease-in-out_infinite]">
-      <span className="text-xl font-bold leading-none tabular-nums">{pad(value)}</span>
-      <span className="text-[10px] uppercase mt-0.5 opacity-70 tracking-widest">{label}</span>
+    <div className="flex flex-col items-center justify-center w-12 h-12 bg-destructive text-destructive-foreground animate-[glow-pulse_3s_ease-in-out_infinite]">
+      <span className="text-lg font-serif font-bold leading-none tabular-nums">{pad(value)}</span>
+      <span className="text-[9px] uppercase mt-0.5 opacity-80 tracking-widest">{label}</span>
     </div>
   );
 }
@@ -84,13 +92,13 @@ function CountdownTimer() {
   }, []);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
       <TimeBox value={timeLeft.days} label="Dias" />
-      <span className="text-xl font-bold text-foreground/60">:</span>
+      <span className="text-2xl font-bold text-destructive">:</span>
       <TimeBox value={timeLeft.hours} label="Horas" />
-      <span className="text-xl font-bold text-foreground/60">:</span>
+      <span className="text-2xl font-bold text-destructive">:</span>
       <TimeBox value={timeLeft.minutes} label="Min" />
-      <span className="text-xl font-bold text-foreground/60">:</span>
+      <span className="text-2xl font-bold text-destructive">:</span>
       <TimeBox value={timeLeft.seconds} label="Seg" />
     </div>
   );
@@ -109,7 +117,7 @@ export function HeroBanner() {
 
   return (
     <section>
-      {/* Banner Carousel */}
+      {/* Carrossel */}
       <div className="relative overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-out"
@@ -118,121 +126,115 @@ export function HeroBanner() {
           {banners.map((banner, i) => (
             <div
               key={banner.id}
-              className="relative min-w-full overflow-hidden px-4 py-20 md:py-28"
+              className="relative min-w-full overflow-hidden py-14 md:py-20"
+              style={{ background: `linear-gradient(135deg, ${banner.bgFrom} 0%, ${banner.bgTo} 100%)` }}
             >
-              {/* Background photo with Ken Burns subtle zoom */}
+              {/* Imagem com overlay */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
                 style={{ backgroundImage: `url(${banner.image})` }}
               />
-              {/* Color overlay — preserves brand identity and text legibility */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${banner.overlay}`} />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
 
-              {/* Floating decorative blobs */}
-              <div className="absolute -top-8 right-[8%] w-72 h-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none animate-[float_9s_ease-in-out_infinite]" />
-              <div className="absolute -bottom-8 left-[6%] w-60 h-60 rounded-full bg-white/[0.07] blur-3xl pointer-events-none animate-[float_7s_ease-in-out_infinite_1.5s]" />
-              <div className="absolute top-1/3 right-1/3 w-44 h-44 rounded-full bg-secondary/[0.12] blur-2xl pointer-events-none animate-[float_11s_ease-in-out_infinite_3s]" />
-
-              {/* Content */}
-              <div className="relative z-10 container mx-auto text-center text-primary-foreground">
+              {/* Conteúdo */}
+              <div className="relative z-10 container mx-auto px-4 text-white">
                 <div
                   key={i === currentSlide ? `active-${currentSlide}` : `passive-${banner.id}`}
-                  className={i === currentSlide ? "animate-[fade-up_0.55s_ease-out_both]" : ""}
+                  className={i === currentSlide ? "animate-[fade-up_0.5s_ease-out_both]" : ""}
                 >
-                  {/* Badge */}
-                  <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-secondary animate-pulse" />
-                    <span className="text-xs font-semibold uppercase tracking-widest opacity-90">
+                  {/* Badge vermelha */}
+                  <div className="mb-4 inline-flex">
+                    <span className="bg-destructive text-destructive-foreground text-xs font-black px-3 py-1 uppercase tracking-widest">
                       {banner.badge}
                     </span>
                   </div>
 
-                  <h2 className="mb-3 font-serif text-4xl font-bold leading-tight md:text-5xl lg:text-6xl drop-shadow-sm">
+                  <h2 className="font-serif font-bold text-5xl md:text-6xl lg:text-7xl leading-none mb-1 drop-shadow-lg">
                     {banner.title}
                   </h2>
-                  <p className="mb-8 text-lg opacity-85 md:text-xl">
-                    {banner.subtitle}
+                  <p className="text-lg md:text-xl opacity-90 mb-1">{banner.subtitle}</p>
+                  <p className="font-serif font-bold text-4xl md:text-5xl text-secondary mb-6 drop-shadow-md">
+                    {banner.discount}
                   </p>
 
-                  <Button
-                    size="lg"
-                    className="relative overflow-hidden bg-card text-primary hover:bg-card font-semibold px-8 shadow-lg hover:shadow-xl transition-shadow duration-300 group/btn"
+                  <a
+                    href={banner.href}
+                    className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground font-serif font-bold text-base px-8 py-3 uppercase tracking-wide transition-colors shadow-lg"
                   >
-                    <span className="relative z-10">{banner.cta}</span>
-                    <span className="absolute inset-0 translate-x-[-100%] skew-x-[-12deg] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover/btn:translate-x-[200%] transition-transform duration-700 pointer-events-none" />
-                  </Button>
+                    {banner.cta} →
+                  </a>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Setas */}
         <button
           onClick={prevSlide}
-          className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-card/80 backdrop-blur-sm p-2.5 text-foreground shadow-lg transition-all duration-200 hover:bg-card hover:scale-105"
+          className="absolute top-1/2 left-3 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 transition-all"
           aria-label="Banner anterior"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-card/80 backdrop-blur-sm p-2.5 text-foreground shadow-lg transition-all duration-200 hover:bg-card hover:scale-105"
+          className="absolute top-1/2 right-3 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 transition-all"
           aria-label="Próximo banner"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
 
         {/* Dots */}
-        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2 items-center">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {banners.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`rounded-full transition-all duration-300 ${
-                index === currentSlide ? "w-8 h-2 bg-card" : "w-2 h-2 bg-card/50 hover:bg-card/75"
+              className={`transition-all duration-300 ${
+                index === currentSlide
+                  ? "w-8 h-2.5 bg-secondary"
+                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
               }`}
-              aria-label={`Ir para banner ${index + 1}`}
+              aria-label={`Banner ${index + 1}`}
             />
           ))}
         </div>
       </div>
 
-      {/* Ofertas do Mês */}
-      <section className="bg-gradient-to-r from-secondary/10 to-primary/10 border-y border-border py-6">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Faixa de Ofertas do Mês */}
+      <div className="bg-white border-y-2 border-secondary">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-1.5 rounded-full bg-secondary" />
+              <div className="bg-destructive text-white text-center px-3 py-2 leading-none">
+                <span className="block text-[10px] font-bold uppercase tracking-wider">OFERTA</span>
+                <span className="block text-lg font-serif font-black">DO MÊS</span>
+              </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-secondary">
-                  Tempo Limitado
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">Promoções até</p>
+                <p className="font-serif font-bold text-xl text-foreground uppercase">
+                  FIM DO MÊS — NÃO PERCA!
                 </p>
-                <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
-                  OFERTAS DO MÊS
-                </h2>
               </div>
             </div>
             <CountdownTimer />
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Benefits Bar */}
-      <div className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="group flex items-center justify-center gap-3 text-center md:justify-start md:text-left cursor-default"
-              >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 transition-all duration-300 group-hover:from-secondary/35 group-hover:to-primary/35 group-hover:scale-110 group-hover:shadow-sm">
-                  <benefit.icon className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+      {/* Barra de benefícios */}
+      <div className="bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 py-3">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            {benefits.map((benefit, i) => (
+              <div key={i} className="flex items-center gap-2.5 py-1">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center bg-white/15">
+                  <benefit.icon className="h-5 w-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{benefit.text}</p>
-                  <p className="text-xs text-muted-foreground">{benefit.subtext}</p>
+                  <p className="text-xs font-bold text-secondary uppercase leading-tight">{benefit.text}</p>
+                  <p className="text-[10px] text-primary-foreground/75">{benefit.subtext}</p>
                 </div>
               </div>
             ))}
