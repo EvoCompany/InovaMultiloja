@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mpPayment } from '@/lib/mercadopago';
+import { getMpPayment } from '@/lib/mercadopago';
 import { createClient } from '@supabase/supabase-js';
 
 const STATUS_MAP: Record<string, string> = {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
-    const payment = await mpPayment.get({ id: data.id });
+    const payment = await getMpPayment().get({ id: data.id });
 
     if (!payment?.external_reference) {
       return NextResponse.json({ ok: true });

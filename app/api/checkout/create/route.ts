@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mpPreference } from '@/lib/mercadopago';
+import { getMpPreference } from '@/lib/mercadopago';
 import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: NextRequest) {
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://inova-multiloja.vercel.app';
 
     // Cria preferência no Mercado Pago
-    const preference = await mpPreference.create({
+    const preference = await getMpPreference().create({
       body: {
         external_reference: pedido.id,
         items: items.map((item: { nome: string; preco: number; quantidade: number; imagem_url?: string }) => ({
