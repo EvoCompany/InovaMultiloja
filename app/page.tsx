@@ -30,7 +30,7 @@ export default async function Home() {
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={50}>
-          <ProductGrid title="Destaques da Semana" products={featuredProducts} highlight={true} />
+          <ProductGrid title="Destaques" products={featuredProducts} />
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={50}>

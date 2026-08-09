@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Menu, ShoppingCart, ChevronDown, User, Phone, Tag } from "lucide-react";
+import { Search, Menu, ShoppingCart, User, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/cart-context";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -77,173 +79,149 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Topo amarelo — promoções */}
-      <div className="bg-secondary text-secondary-foreground">
-        <div className="container mx-auto px-4 py-1.5">
-          <div className="flex items-center justify-between text-xs font-bold">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1">
-                <Tag className="h-3 w-3" />
-                FRETE GRÁTIS em todo o site
-              </span>
-              <span className="hidden sm:inline">💳 Parcele em até 12x sem juros</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="hidden md:flex items-center gap-1">
-                <span className="bg-destructive text-white text-[10px] font-black px-1.5 py-0.5 rounded-sm">7% OFF</span>
-                <span>no Pix</span>
-              </span>
-              <span className="hidden lg:flex items-center gap-1 text-foreground/70">
-                <Phone className="h-3 w-3" /> (55) 9 5596-8590
-              </span>
-            </div>
+      {/* Top Bar */}
+      <div className="bg-gradient-to-r from-secondary to-primary text-primary-foreground">
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex items-center justify-center text-xs gap-3">
+            <span>Frete Grátis em todo o site</span>
+            <span className="hidden sm:inline opacity-60">•</span>
+            <span className="hidden sm:inline font-medium">7% OFF no Pix</span>
+            <span className="hidden lg:inline opacity-60">•</span>
+            <span className="hidden lg:inline">Parcelamos em até 12x</span>
           </div>
         </div>
       </div>
 
-      {/* Header principal — branco */}
-      <div className="bg-white border-b-4 border-secondary shadow-sm">
+      {/* Main Header */}
+      <div className="border-b border-border bg-card shadow-sm">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center gap-3 md:gap-5">
-            {/* Menu mobile */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <button className="md:hidden flex items-center justify-center w-10 h-10 text-primary hover:bg-muted rounded transition-colors">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Menu</span>
-                </button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 p-0">
-                <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
-                <div className="bg-primary text-primary-foreground px-4 py-5">
-                  <Link href="/" className="flex items-center gap-3">
-                    <Image
-                      src="/logo.png"
-                      alt="Inova Multiloja"
-                      width={48}
-                      height={48}
-                      className="h-12 w-12 rounded-full object-cover border-2 border-secondary"
-                    />
-                    <span className="font-serif font-bold text-lg">INOVA MULTILOJA</span>
-                  </Link>
-                </div>
-                <nav className="flex flex-col divide-y divide-border">
-                  {navCategories.map((cat) => (
-                    <div key={cat.name}>
-                      <Link
-                        href={cat.href}
-                        className="flex items-center justify-between px-4 py-3 text-sm font-semibold text-foreground hover:bg-muted hover:text-primary transition-colors"
-                      >
-                        {cat.name}
-                        <ChevronDown className="h-4 w-4 opacity-50" />
-                      </Link>
-                      <div className="bg-muted/40 px-6 pb-1">
-                        {cat.subcategories.map((sub) => (
+          <div className="flex items-center gap-4">
+            {/* Hamburger + Logo à esquerda */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Mobile Menu */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80">
+                  <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
+                  <div className="flex flex-col gap-6 pt-6">
+                    <Link href="/" className="flex items-center justify-center gap-2">
+                      <Image
+                        src="/logo.png"
+                        alt="Inova Multiloja"
+                        width={120}
+                        height={120}
+                        className="h-16 w-16 rounded-full object-cover shadow-md"
+                      />
+                    </Link>
+                    <nav className="flex flex-col gap-1">
+                      <p className="mb-2 font-serif text-sm font-semibold text-muted-foreground px-3">
+                        Categorias
+                      </p>
+                      {navCategories.map((category) => (
+                        <div key={category.name}>
                           <Link
-                            key={sub}
-                            href={`/${cat.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="block py-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+                            href={category.href}
+                            className="rounded-lg px-3 py-2 text-foreground transition-colors hover:bg-muted flex items-center justify-between font-medium"
                           >
-                            {sub}
+                            {category.name}
                           </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
+                          <div className="pl-5 flex flex-col gap-0.5">
+                            {category.subcategories.map((sub) => (
+                              <Link
+                                key={sub}
+                                href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                                className="rounded-lg px-3 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                              >
+                                {sub}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </nav>
+                  </div>
+                </SheetContent>
+              </Sheet>
 
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center gap-2">
-              <Image
-                src="/logo.png"
-                alt="Inova Multiloja"
-                width={140}
-                height={140}
-                className="h-12 w-12 md:h-14 md:w-14 rounded-full object-cover border-2 border-secondary"
-                priority
-              />
-              <span className="hidden lg:block font-serif font-bold text-primary text-xl leading-tight uppercase tracking-wide">
-                Inova<br />Multiloja
-              </span>
-            </Link>
+              {/* Logo */}
+              <Link href="/" className="flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Inova Multiloja"
+                  width={140}
+                  height={140}
+                  className="h-12 w-12 rounded-full object-cover shadow-md md:h-14 md:w-14"
+                  priority
+                />
+              </Link>
+            </div>
 
-            {/* Busca — grande e central */}
+            {/* Barra de busca flex-1 no centro */}
             <form onSubmit={handleSearch} className="flex-1">
-              <div className="flex h-11 max-w-3xl mx-auto">
-                <input
+              <div className="relative w-full max-w-2xl mx-auto">
+                <Input
                   type="search"
-                  placeholder="Busque por produto, marca ou categoria..."
+                  placeholder="O que você está procurando?"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 border-2 border-primary rounded-l-sm px-4 text-sm outline-none focus:border-primary bg-white text-foreground placeholder:text-muted-foreground"
+                  className="h-11 pr-12 pl-4"
                 />
-                <button
+                <Button
                   type="submit"
-                  className="bg-primary hover:bg-accent text-primary-foreground px-5 rounded-r-sm flex items-center gap-2 font-bold text-sm transition-colors whitespace-nowrap"
+                  size="icon"
+                  className="absolute top-1/2 right-1 h-9 w-9 -translate-y-1/2 bg-gradient-to-r from-secondary to-primary hover:opacity-90"
                 >
-                  <Search className="h-5 w-5" />
-                  <span className="hidden sm:inline">BUSCAR</span>
-                </button>
+                  <Search className="h-4 w-4" />
+                  <span className="sr-only">Buscar</span>
+                </Button>
               </div>
             </form>
 
-            {/* Conta + Carrinho */}
-            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-              <button className="hidden md:flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors cursor-default">
-                <User className="h-6 w-6" />
-                <span className="text-[11px] font-semibold whitespace-nowrap">Minha Conta</span>
-              </button>
-              <button
-                onClick={openCart}
-                className="flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors relative"
-                aria-label="Carrinho de compras"
-              >
-                <div className="relative">
-                  <ShoppingCart className="h-6 w-6" />
-                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-black text-white leading-none">
-                    {count}
-                  </span>
-                </div>
-                <span className="text-[11px] font-semibold">Carrinho</span>
-              </button>
-            </div>
+            {/* Ícone carrinho à direita */}
+            <button
+              onClick={openCart}
+              className="flex-shrink-0 flex flex-col items-center gap-0.5 text-foreground hover:text-primary transition-colors relative"
+              aria-label="Carrinho de compras"
+            >
+              <div className="relative">
+                <ShoppingCart className="h-6 w-6" />
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-[10px] font-bold text-primary-foreground">
+                  {count}
+                </span>
+              </div>
+              <span className="hidden text-xs font-medium md:block">Carrinho</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Nav azul — departamentos */}
-      <nav className="hidden md:block bg-primary text-primary-foreground shadow-md">
+      {/* Categories Nav */}
+      <nav className="hidden border-b border-border bg-primary md:block">
         <div className="container mx-auto px-4">
-          <ul className="flex items-stretch">
-            {/* Todos os departamentos */}
-            <li className="flex-shrink-0 border-r border-white/20">
-              <button className="flex items-center gap-2 px-4 py-3 font-serif font-bold text-sm bg-accent hover:bg-accent/80 h-full transition-colors whitespace-nowrap uppercase tracking-wide">
-                <Menu className="h-4 w-4" />
-                Todos os Departamentos
-              </button>
-            </li>
-
-            {navCategories.map((cat) => (
-              <li key={cat.name} className="group relative">
+          <ul className="flex items-center justify-center gap-0">
+            {navCategories.map((category) => (
+              <li key={category.name} className="group relative">
                 <Link
-                  href={cat.href}
-                  className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-semibold text-primary-foreground hover:bg-white/15 transition-colors"
+                  href={category.href}
+                  className="flex items-center gap-1 whitespace-nowrap px-4 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/10"
                 >
-                  {cat.name}
-                  <ChevronDown className="h-3 w-3 opacity-70" />
+                  {category.name}
+                  <ChevronDown className="h-3.5 w-3.5 opacity-70" />
                 </Link>
 
                 {/* Dropdown */}
-                <div className="absolute top-full left-0 z-50 min-w-[180px] border border-border bg-card shadow-xl pointer-events-none opacity-0 -translate-y-1 invisible transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible rounded-b-sm">
-                  <div className="h-1 bg-secondary" />
+                <div className="absolute top-full left-0 z-50 min-w-[160px] rounded-b-lg border border-border bg-card shadow-lg pointer-events-none opacity-0 -translate-y-1 invisible transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible">
                   <ul className="py-2">
-                    {cat.subcategories.map((sub) => (
+                    {category.subcategories.map((sub) => (
                       <li key={sub}>
                         <Link
-                          href={`/${cat.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
-                          className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary font-medium transition-colors"
+                          href={`/${category.slug}#${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                          className="block px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted hover:text-primary"
                         >
                           {sub}
                         </Link>
