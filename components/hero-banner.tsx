@@ -120,13 +120,11 @@ export function HeroBanner() {
               key={banner.id}
               className="relative min-w-full overflow-hidden px-4 py-20 md:py-28"
             >
-              {/* Background photo with Ken Burns subtle zoom */}
+              {/* Background photo — sem zoom, sem gradiente */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-[ken-burns_5s_ease-in-out_alternate_infinite]"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url(${banner.image})` }}
               />
-              {/* Color overlay — preserves brand identity and text legibility */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${banner.overlay}`} />
 
               {/* Floating decorative blobs */}
               <div className="absolute -top-8 right-[8%] w-72 h-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none animate-[float_9s_ease-in-out_infinite]" />
