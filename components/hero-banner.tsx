@@ -120,11 +120,13 @@ export function HeroBanner() {
               key={banner.id}
               className="relative min-w-full overflow-hidden px-4 py-20 md:py-28"
             >
-              {/* Background photo — sem zoom, sem gradiente */}
+              {/* Background photo */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url(${banner.image})` }}
               />
+              {/* Película de sombreamento para legibilidade do texto */}
+              <div className="absolute inset-0 bg-black/50" />
 
               {/* Floating decorative blobs */}
               <div className="absolute -top-8 right-[8%] w-72 h-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none animate-[float_9s_ease-in-out_infinite]" />
