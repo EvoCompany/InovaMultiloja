@@ -5,6 +5,26 @@ import { useCart } from '@/context/cart-context';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+function formatCPF(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  return digits
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+}
+
+function formatTelefone(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 10) {
+    return digits
+      .replace(/(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{4})(\d{1,4})$/, '$1-$2');
+  }
+  return digits
+    .replace(/(\d{2})(\d)/, '($1) $2')
+    .replace(/(\d{5})(\d{1,4})$/, '$1-$2');
+}
+
 declare global {
   interface Window {
     MercadoPago: new (key: string, opts: { locale: string }) => {
@@ -86,7 +106,11 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          cliente,
+          cliente: {
+            ...cliente,
+            cpf: cliente.cpf.replace(/\D/g, ''),
+            telefone: cliente.telefone.replace(/\D/g, ''),
+          },
           items: items.map((i) => ({
             id: i.id,
             nome: i.nome,
@@ -154,7 +178,7 @@ export default function CheckoutPage() {
                     placeholder="(55) 99999-9999"
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={cliente.telefone}
-                    onChange={(e) => setCliente({ ...cliente, telefone: e.target.value })}
+                    onChange={(e) => setCliente({ ...cliente, telefone: formatTelefone(e.target.value) })}
                   />
                 </div>
                 <div>
@@ -163,7 +187,7 @@ export default function CheckoutPage() {
                     placeholder="000.000.000-00"
                     className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={cliente.cpf}
-                    onChange={(e) => setCliente({ ...cliente, cpf: e.target.value })}
+                    onChange={(e) => setCliente({ ...cliente, cpf: formatCPF(e.target.value) })}
                   />
                 </div>
               </div>
