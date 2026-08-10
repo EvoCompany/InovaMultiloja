@@ -82,8 +82,8 @@ export function Header() {
       style={{ background: "linear-gradient(to right, var(--color-primary), #cc2200, var(--color-secondary))" }}
     >
       {/* Faixa de promoções */}
-      <div className="border-b border-white/20">
-        <div className="container mx-auto px-4 py-1.5">
+      <div>
+        <div className="container mx-auto px-4 py-1.5 border-b border-white/20">
           <div className="flex items-center justify-center text-xs text-white gap-3">
             <span className="opacity-90">Frete Grátis em todo o site</span>
             <span className="hidden sm:inline opacity-40">•</span>
@@ -95,8 +95,8 @@ export function Header() {
       </div>
 
       {/* Logo + Busca + Carrinho */}
-      <div className="border-b border-white/20">
-        <div className="container mx-auto px-4 py-3">
+      <div>
+        <div className="container mx-auto px-4 py-3 border-b border-white/20">
           <div className="flex items-center gap-4">
 
             {/* Menu mobile */}
