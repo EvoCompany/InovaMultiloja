@@ -83,7 +83,7 @@ export function Header() {
     >
       {/* Faixa de promoções */}
       <div>
-        <div className="container mx-auto px-4 py-1.5 border-b border-white/20">
+        <div className="container mx-auto px-4 py-1.5">
           <div className="flex items-center justify-center text-xs text-white gap-3">
             <span className="opacity-90">Frete Grátis em todo o site</span>
             <span className="hidden sm:inline opacity-40">•</span>
@@ -92,11 +92,12 @@ export function Header() {
             <span className="hidden lg:inline opacity-90">Parcelamos em até 12x</span>
           </div>
         </div>
+        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-24" /></div>
       </div>
 
       {/* Logo + Busca + Carrinho */}
       <div>
-        <div className="container mx-auto px-4 py-3 border-b border-white/20">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center gap-4">
 
             {/* Menu mobile */}
@@ -197,6 +198,7 @@ export function Header() {
             </button>
           </div>
         </div>
+        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-24" /></div>
       </div>
 
       {/* Nav de categorias */}
