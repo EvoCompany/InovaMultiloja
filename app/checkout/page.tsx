@@ -121,8 +121,9 @@ export default function CheckoutPage() {
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.error ?? 'Erro ao processar pedido');
 
       setPreferenceId(data.preferenceId);
       setStep('pagamento');
