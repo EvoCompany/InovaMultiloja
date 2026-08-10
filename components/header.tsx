@@ -92,7 +92,7 @@ export function Header() {
             <span className="hidden lg:inline opacity-90">Parcelamos em até 12x</span>
           </div>
         </div>
-        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-[110px]" /></div>
+        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-[125px]" /></div>
       </div>
 
       {/* Logo + Busca + Carrinho */}
@@ -198,7 +198,7 @@ export function Header() {
             </button>
           </div>
         </div>
-        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-[110px]" /></div>
+        <div className="container mx-auto px-4"><div className="border-b border-white/20 mx-[125px]" /></div>
       </div>
 
       {/* Nav de categorias */}
